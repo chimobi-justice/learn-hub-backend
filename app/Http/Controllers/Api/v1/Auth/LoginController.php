@@ -17,7 +17,7 @@ class LoginController extends Controller
 {
      /**
      * @OA\Post(
-     *    path="/auth/signin",
+     *    path="/auth/login",
      *    tags={"auth"},
      *    summary="Logs an existing user with credentials",
      *    description="authentication endpoint using JWT token",

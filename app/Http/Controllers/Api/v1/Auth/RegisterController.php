@@ -11,7 +11,7 @@ class RegisterController extends Controller
 {
     /**
      * @OA\Post(
-     *    path="/auth/signup",
+     *    path="/auth/register",
      *    tags={"auth"},
      *    summary="Registers a new user",
      *    description="Registers a new user",

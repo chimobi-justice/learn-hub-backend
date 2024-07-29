@@ -14,18 +14,18 @@
     },
     "servers": [
         {
-            "url": "http://my-default-host.com"
+            "url": "http://learn-hub-backend.test/api/v1"
         }
     ],
     "paths": {
-        "/auth/signin": {
+        "/auth/login": {
             "post": {
                 "tags": [
                     "auth"
                 ],
                 "summary": "Logs an existing user with credentials",
                 "description": "authentication endpoint using JWT token",
-                "operationId": "a31b2690742b9ccc6ff5d53ab7aa8597",
+                "operationId": "fbb752a9447382cb9e22985c9b58276e",
                 "requestBody": {
                     "description": "authenticate if user exists",
                     "required": true,
@@ -69,14 +69,14 @@
                 }
             }
         },
-        "/auth/signout": {
+        "/auth/logout": {
             "post": {
                 "tags": [
                     "auth"
                 ],
                 "summary": "Logs out an existing user",
                 "description": "Logs out an existing user",
-                "operationId": "366d3aabbc89e5f8a1d591fee7f5a237",
+                "operationId": "4d7e340eb1ea7362135bbe5d91a337fc",
                 "responses": {
                     "200": {
                         "description": "logged out Successfully",
@@ -103,14 +103,14 @@
                 ]
             }
         },
-        "/auth/signup": {
+        "/auth/register": {
             "post": {
                 "tags": [
                     "auth"
                 ],
                 "summary": "Registers a new user",
                 "description": "Registers a new user",
-                "operationId": "9efacbfa35f7400be773b6971a47493f",
+                "operationId": "b3e8d7792432e59d82ca82e23cb9d78c",
                 "requestBody": {
                     "description": "create new user",
                     "required": true,
