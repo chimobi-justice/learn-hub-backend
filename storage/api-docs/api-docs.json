@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Learn Hub",
+        "description": "API doc for Learn Hub",
+        "contact": {
+            "url": "https://justice-chimobi.vercel.app/"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com"
+        }
+    ],
+    "paths": {
+        "/auth/signin": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logs an existing user with credentials",
+                "description": "authentication endpoint using JWT token",
+                "operationId": "a31b2690742b9ccc6ff5d53ab7aa8597",
+                "requestBody": {
+                    "description": "authenticate if user exists",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "justice@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secrets"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Logged in successfully",
+                                    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvc2lnbAsIm5iZiI6MTcwNjAwNDI1MCwianRpIjoidE1tUlNHbjg0QlZoQkdYTSIsInN1YiI6IjU1MjJmNjQyLTYyOGQtNDZkZi04NDMyLTNmZTBjMjllNDM5YiIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.xoKfHEHLZ6vDwIfg-GZQXoMwG9wQGlgs4vDrLTEVwoU"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                }
+            }
+        },
+        "/auth/signout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logs out an existing user",
+                "description": "Logs out an existing user",
+                "operationId": "366d3aabbc89e5f8a1d591fee7f5a237",
+                "responses": {
+                    "200": {
+                        "description": "logged out Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "logged out Successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/auth/signup": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Registers a new user",
+                "description": "Registers a new user",
+                "operationId": "9efacbfa35f7400be773b6971a47493f",
+                "requestBody": {
+                    "description": "create new user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "fullname": {
+                                        "type": "string",
+                                        "example": "justice Owen"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "justice@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secrets"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "account created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "account created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User",
+                "description": "User model NB: (only mentor are allowed to add there bio & occupation fields, because bio, occupation won't be returned to student)",
+                "properties": {
+                    "fullname": {
+                        "title": "Full Name",
+                        "description": "Full Name of the User",
+                        "format": "string",
+                        "example": "justice Owens"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email of the User",
+                        "format": "string",
+                        "example": "justice@example.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password of the User",
+                        "format": "string",
+                        "example": "secret"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "user"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "auth",
+            "description": "auth"
+        }
+    ]
+}
