@@ -10,7 +10,7 @@ class LogoutController extends Controller
 {
     /**
      * @OA\POST(
-     *   path="/auth/signout",
+     *   path="/auth/logout",
      *   tags={"auth"},
      *   summary="Logs out an existing user",
      *   description="Logs out an existing user",
