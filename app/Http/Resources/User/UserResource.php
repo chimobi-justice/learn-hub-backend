@@ -18,12 +18,15 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'fullname' => $this->fullname,
             'email' => $this->email,
-            // 'avatar' => $this->avatar,
-            // 'address' => $this->address,
-            // 'city' => $this->city,
-            // 'state' => $this->state,
-            // 'country' => $this->country,
-            // 'bio' => $this->bio,        
+            'username' => $this->username,
+            'twitter' => $this->twitter,
+            'avatar' => $this->avatar,
+            'gitHub' => $this->gitHub,
+            'website' => $this->website,
+            'headlines' => $this->headlines,
+            'state' => $this->state,
+            'country' => $this->country,
+            'bio' => $this->bio, 
         ];
     }
 }
