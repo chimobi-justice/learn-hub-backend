@@ -9,9 +9,12 @@ php artisan config:cache
 echo "Caching routes..."
 php artisan route:cache
 
-echo "Creating SQLite database..."
-touch /var/www/html/database/database.sqlite
-chmod 775 /var/www/html/database/database.sqlite
+# Ensure the SQLite database file exists and has proper permissions
+if [ ! -f /var/www/html/database/database.sqlite ]; then
+    echo "Creating SQLite database..."
+    touch /var/www/html/database/database.sqlite
+    chmod 775 /var/www/html/database/database.sqlite
+fi
 
 echo "Running migrations for SQLite..."
 php artisan migrate --database=sqlite --force

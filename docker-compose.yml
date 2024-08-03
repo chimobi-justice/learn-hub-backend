@@ -1,0 +1,2 @@
+volumes:
+  - ./database:/var/www/html/database
