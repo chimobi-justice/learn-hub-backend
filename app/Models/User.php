@@ -5,13 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @OA\Schema(
  *  title="User",
- *  description="User model NB: (only mentor are allowed to add there bio & occupation fields, because bio, occupation won't be returned to student)",
+ *  description="User model",
  *  @OA\Xml(
  *    name="user",
  *  )
@@ -19,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 */
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +31,15 @@ class User extends Authenticatable implements JWTSubject
         'fullname',
         'email',
         'password',
+        'username',
+        'twitter',
+        'avatar',
+        'gitHub',
+        'website',
+        'profile_headlines',
+        'bio',
+        'state',
+        'country'
     ];
 
     /**
@@ -63,6 +73,96 @@ class User extends Authenticatable implements JWTSubject
     private $password;
 
     /**
+     *  @OA\Property(
+     *    title="Username",
+     *    description="Username of the User",
+     *    format="string",
+     *    example="justice-dev"
+     *  )
+    */
+    private $username;
+
+    /**
+     *  @OA\Property(
+     *    title="Twitter",
+     *    description="twitter handle of the User",
+     *    format="string",
+     *    example="@justice-dev"
+     *  )
+    */
+    private $twitter;
+
+    /**
+     *  @OA\Property(
+     *    title="Avatar",
+     *    description="thumbnail of the User",
+     *    format="string",
+     *    example="thumbnail/lorem/avatar"
+     *  )
+    */
+    private $avatar;
+
+    /**
+     *  @OA\Property(
+     *    title="GitHub",
+     *    description="GitHub of the User",
+     *    format="string",
+     *    example="github.com/justice-dev"
+     *  )
+    */
+    private $gitHub;
+
+    /**
+     *  @OA\Property(
+     *    title="Website",
+     *    description="Website of the User",
+     *    format="string",
+     *    example="https://justice-chimobi.vercel.app"
+     *  )
+    */
+    private $website;
+
+    /**
+     *  @OA\Property(
+     *    title="Profile_headlines",
+     *    description="Profile headlines of the User",
+     *    format="string",
+     *    example="Frontend Developer || React || Laravel"
+     *  )
+    */
+    private $profile_headlines;
+
+    /**
+     *  @OA\Property(
+     *    title="Bio",
+     *    description="Bio of the User",
+     *    format="string",
+     *    example="about the user short bio.."
+     *  )
+    */
+    private $bio;
+
+    /**
+     *  @OA\Property(
+     *    title="State",
+     *    description="State of the User",
+     *    format="string",
+     *    example="Ebonyi"
+     *  )
+    */
+    private $state;
+
+    /**
+     *  @OA\Property(
+     *    title="Country",
+     *    description="Country of the User",
+     *    format="string",
+     *    example="Nigeria"
+     *  )
+    */
+    private $country;
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -82,6 +182,14 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+        ];
+    }
+
+    public function sluggable(): array {
+        return [
+            'username' => [
+                'source' => 'fullname'
+            ]
         ];
     }
 
