@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditProfileFormRequest extends FormRequest
@@ -21,17 +22,23 @@ class EditProfileFormRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = Auth::id();
+
         return [
-            'fullname' => 'required',
-            'username' => 'required|string|unique:users,username',
-            'twitter' => 'required',
-            'avatar' => 'required|image|mimes:jpg,png,jpeg,JPG,PNG|max:2048',
-            'gitHub' => 'required',
-            'website' => 'required',
-            'profile_headlines' => 'required',
-            'bio' => 'required',
-            'state' => 'required',
-            'country' => 'required'
+            'fullname' => 'required|string|max:255',
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:users,username' . $userId
+            ],
+            'twitter' => 'required|string|max:255',
+            'gitHub' => 'required|string|max:255',
+            'website' => 'required|string|max:255',
+            'profile_headlines' => 'required|string|max:255',
+            'bio' => 'required|string|max:1000',
+            'state' => 'required|string|max:255',
+            'country' => 'required|string|max:255'
         ];
     }
 }

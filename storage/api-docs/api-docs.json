@@ -157,14 +157,118 @@
                 }
             }
         },
-        "/users/settings/accounts/delete": {
+        "/image/upload": {
+            "post": {
+                "tags": [
+                    "upload"
+                ],
+                "summary": "Upload image to cloudinary",
+                "description": "Upload image to cloudinary and get actual url from response to use for avatar, thumbnail endpoint",
+                "operationId": "42f886e2e4b61acd6302b69d5a6417f7",
+                "requestBody": {
+                    "description": "Image file to upload",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "avatar": {
+                                        "description": "image file to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Uploaded successfully!",
+                                    "imageUploadUrl": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/users/accounts/upload-avatar": {
+            "patch": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update current authenticated user avatar profile, please ensure you get your image url from cloudinary image upload endpoint",
+                "description": "Update current authenticated user avatar profile",
+                "operationId": "1cc6412bb16981714fdfd807f6d36659",
+                "requestBody": {
+                    "description": "Update user avatar profile",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Updated successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    },
+                    "401": {
+                        "description": "Unathenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/users/accounts/delete": {
             "delete": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Delete user account",
                 "description": "Delete user account",
-                "operationId": "e17c91cb0792d71700578020d12539b7",
+                "operationId": "8f5af3b81be73911ae13d25d717f5822",
                 "responses": {
                     "204": {
                         "description": "Successful operation"
@@ -180,14 +284,14 @@
                 ]
             }
         },
-        "/users/settings/accounts/update-profile": {
-            "post": {
+        "/users/accounts/update-profile": {
+            "patch": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Edit a user profile",
                 "description": "Edit a user profile",
-                "operationId": "f17a9f684e5e4b3b9f52cd7ce840aacc",
+                "operationId": "3a826e657ab9c3c4f52d183ac24bc98b",
                 "requestBody": {
                     "description": "Edit a user profile",
                     "required": true,
@@ -206,11 +310,6 @@
                                     "twitter": {
                                         "type": "string",
                                         "example": "@justice-chimobi"
-                                    },
-                                    "avatar": {
-                                        "type": "string",
-                                        "format": "binary",
-                                        "example": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.jpg"
                                     },
                                     "gitHub": {
                                         "type": "string",
@@ -271,16 +370,16 @@
                 ]
             }
         },
-        "/users/settings/accounts/update-password": {
-            "post": {
+        "/users/accounts/update-password": {
+            "patch": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Update user password",
                 "description": "Update user password",
-                "operationId": "da4c8c925cc314148862d972c900bd90",
+                "operationId": "79c6f365c92ad2d9f9abeefd1064562a",
                 "requestBody": {
-                    "description": "Edit a user profile",
+                    "description": "Update user password",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -480,6 +579,10 @@
         {
             "name": "auth",
             "description": "auth"
+        },
+        {
+            "name": "upload",
+            "description": "upload"
         },
         {
             "name": "users",
