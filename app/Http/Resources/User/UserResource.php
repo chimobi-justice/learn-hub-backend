@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'gitHub' => $this->gitHub,
             'website' => $this->website,
-            'headlines' => $this->headlines,
+            'profile_headlines' => $this->profile_headlines,
             'state' => $this->state,
             'country' => $this->country,
             'bio' => $this->bio, 

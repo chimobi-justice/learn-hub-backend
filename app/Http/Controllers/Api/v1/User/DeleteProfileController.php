@@ -9,7 +9,7 @@ class DeleteProfileController extends Controller
 {
      /**
      * @OA\Delete(
-     *  path="/users/settings/accounts/delete",
+     *  path="/users/accounts/delete",
      *  tags={"users"},
      *  summary="Delete user account",
      *  description="Delete user account",

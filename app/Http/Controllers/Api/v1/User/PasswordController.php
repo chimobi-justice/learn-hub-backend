@@ -8,15 +8,15 @@ use App\Http\Controllers\Controller;
 class PasswordController extends Controller
 {
     /**
-     * @OA\Post(
-     *    path="/users/settings/accounts/update-password",
+     * @OA\Patch(
+     *    path="/users/accounts/update-password",
      *    tags={"users"},
      *    summary="Update user password",
      *    description="Update user password",
      *    security={{"bearer_token": {}}},
      *    @OA\RequestBody(
      *        required=true,
-     *        description="Edit a user profile",
+     *        description="Update user password",
      *        @OA\JsonContent(
      *            @OA\Property(property="current_password", type="string", example="oldpassword"),
      *            @OA\Property(property="password", type="string", example="mynewpassword"),
