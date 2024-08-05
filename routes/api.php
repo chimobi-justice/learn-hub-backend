@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Image\UploadController;
 
-Route::prefix('auth')->as('auth:')->group(
+Route::prefix('auth')->group(
 	base_path('routes/api/v1/auth.php'),
 );
 
-Route::prefix('users')->as('users:')->group(
+Route::prefix('users')->group(
 	base_path('routes/api/v1/user.php'),
 );
 
