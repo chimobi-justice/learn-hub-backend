@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\ImageUploadService;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,8 +17,11 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
+     *
+     * @param UrlGenerator $url
+     * @return void
      */
-    public function boot(UrlGenerator $url): void
+    public function boot(UrlGenerator $url)
     {
         if (env('APP_ENV') == 'production') {
             $url->forceScheme('https');
