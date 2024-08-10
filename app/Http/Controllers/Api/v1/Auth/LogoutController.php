@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api\v1\Auth;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
@@ -17,11 +18,11 @@ class LogoutController extends Controller
      *   security={{"bearer_token": {}}},
      *   @OA\Response(
      *    response="200",
-     *    description="logged out Successfully",
+     *    description="logged out Successfully!",
      *       
      *    @OA\JsonContent(
      *       example={
-     *          "message": "logged out Successfully",     
+     *          "message": "logged out Successfully!",     
      *        }
      *    )
      *   ),
@@ -32,6 +33,7 @@ class LogoutController extends Controller
     public function logout() {
         Auth::guard('api')->logout();
 
-        return response()->json(['message' => 'logged out Successfully']);
+        return ResponseHelper::success("logged out Successfully!");
+
     }
 }

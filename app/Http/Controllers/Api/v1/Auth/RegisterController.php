@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterFormRequest;
 
@@ -39,10 +40,11 @@ class RegisterController extends Controller
      * )
     */
     public function register(RegisterFormRequest $request) {
-        User::create($request->validated());
+        $user = User::create($request->validated());
 
-        return response([
-            "message" => "account created successfully!"
-        ], 201);
+        return ResponseHelper::success(
+            message: "account created successfully!", 
+            statusCode: 201
+        );
     }
 }
