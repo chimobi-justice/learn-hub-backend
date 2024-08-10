@@ -11,7 +11,7 @@ class AvatarController extends Controller
      * @OA\Patch(
      *      path="/users/accounts/upload-avatar",
      *      tags={"users"},
-     *      summary="Update current authenticated user avatar profile, please ensure you get your image url from cloudinary image upload endpoint",
+     *      summary="Update current authenticated user avatar profile, please ensure you get your image url from upload tag image/upload endpoint",
      *      security={{"bearer_token": {}}},
      *      description="Update current authenticated user avatar profile",
      *      @OA\RequestBody(

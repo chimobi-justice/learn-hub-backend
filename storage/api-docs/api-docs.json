@@ -18,6 +18,277 @@
         }
     ],
     "paths": {
+        "/articles/create": {
+            "post": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Create a articles, please ensure you get your image url from upload tags image/upload endpoint",
+                "description": "Create a articles",
+                "operationId": "e21185f92d22ef2c661bd8a73159e200",
+                "requestBody": {
+                    "description": "Create a articles",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Intro to Reactjs and typeScript"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "example": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+                                    },
+                                    "thumbnail": {
+                                        "type": "string",
+                                        "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Article created successfully!",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Article created successfully!"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated."
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/delete/{article}": {
+            "delete": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Author delete a created article",
+                "description": "Author delete a created article",
+                "operationId": "c4b0cab2de8f432ef27b3db0292cbcaa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "id": {
+                                "summary": "Id value.",
+                                "value": "300"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Article deleted successfully!"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "You are not authorized to delete this article."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/edit/{article}": {
+            "patch": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Update articles created by a author",
+                "description": "Update articles created by a author",
+                "operationId": "1bea224368b91d03414841f160e15f4f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Articles ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "660"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update articles created by a author",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "learn-hub article name"
+                                    },
+                                    "content": {
+                                        "type": "string",
+                                        "example": "content of the article body"
+                                    },
+                                    "thumbnail": {
+                                        "type": "string",
+                                        "example": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Article updated successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "You are not authorized to edit this article."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/all": {
+            "get": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Get list of articles",
+                "description": "Returns list of articles",
+                "operationId": "f2c1a2b3b981fb4d7d4524576a662369",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ArticleResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles//{article}": {
+            "get": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Get an articles by ID",
+                "description": "Get an articles by ID",
+                "operationId": "ae63368477cdc3bf78fb3950b90de8f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article ID",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "examples": {
+                            "id": {
+                                "summary": "An ID value.",
+                                "value": "569"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ShowArticleResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -79,12 +350,12 @@
                 "operationId": "4d7e340eb1ea7362135bbe5d91a337fc",
                 "responses": {
                     "200": {
-                        "description": "logged out Successfully",
+                        "description": "logged out Successfully!",
                         "content": {
                             "application/json": {
                                 "schema": {},
                                 "example": {
-                                    "message": "logged out Successfully"
+                                    "message": "logged out Successfully!"
                                 }
                             }
                         }
@@ -172,7 +443,7 @@
                         "multipart/form-data": {
                             "schema": {
                                 "properties": {
-                                    "avatar": {
+                                    "image": {
                                         "description": "image file to upload",
                                         "type": "string",
                                         "format": "binary"
@@ -191,7 +462,7 @@
                                 "schema": {},
                                 "example": {
                                     "message": "Uploaded successfully!",
-                                    "imageUploadUrl": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+                                    "data": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
                                 }
                             }
                         }
@@ -212,7 +483,7 @@
                 "tags": [
                     "users"
                 ],
-                "summary": "Update current authenticated user avatar profile, please ensure you get your image url from cloudinary image upload endpoint",
+                "summary": "Update current authenticated user avatar profile, please ensure you get your image url from upload tag image/upload endpoint",
                 "description": "Update current authenticated user avatar profile",
                 "operationId": "1cc6412bb16981714fdfd807f6d36659",
                 "requestBody": {
@@ -482,6 +753,132 @@
     },
     "components": {
         "schemas": {
+            "ArticleResource": {
+                "title": "ArticleResource",
+                "description": "Article Resource",
+                "properties": {
+                    "id": {
+                        "description": "Course ID",
+                        "type": "string",
+                        "example": "20"
+                    },
+                    "title": {
+                        "description": "Article title",
+                        "type": "string",
+                        "example": "Article intro"
+                    },
+                    "content": {
+                        "description": "Article content",
+                        "type": "string",
+                        "example": "About my article content."
+                    },
+                    "thumbnail": {
+                        "description": "URL of the article thumbnail",
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
+                    },
+                    "author": {
+                        "$ref": "#/components/schemas/UserForArticleResource"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ArticleResource"
+                }
+            },
+            "ShowArticleResource": {
+                "title": "ShowArticleResource",
+                "description": "Article Resource",
+                "properties": {
+                    "id": {
+                        "description": "Course ID",
+                        "type": "string",
+                        "example": "20"
+                    },
+                    "title": {
+                        "description": "Article title",
+                        "type": "string",
+                        "example": "Article intro"
+                    },
+                    "content": {
+                        "description": "Article content",
+                        "type": "string",
+                        "example": "About my article content."
+                    },
+                    "thumbnail": {
+                        "description": "URL of the article thumbnail",
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
+                    },
+                    "created_at": {
+                        "description": "Date of the article",
+                        "type": "string",
+                        "example": "2024-08-08T00:09:10.000000Z"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ShowArticleResource"
+                }
+            },
+            "UserForArticleResource": {
+                "title": "UserForArticleResource",
+                "description": "User article Resource",
+                "properties": {
+                    "id": {
+                        "description": "Id",
+                        "type": "string",
+                        "example": "30"
+                    },
+                    "fullname": {
+                        "description": "Full name",
+                        "type": "string",
+                        "example": "Justice Chimobi"
+                    },
+                    "username": {
+                        "description": "Username",
+                        "type": "string",
+                        "example": "justice-chimobi"
+                    },
+                    "avatar": {
+                        "description": "Course name",
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.jpg"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserForArticleResource"
+                }
+            },
+            "Article": {
+                "title": "Article",
+                "description": "Article model",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "description": "Title of the Article",
+                        "format": "string",
+                        "example": "About Reactjs and TypeScript"
+                    },
+                    "content": {
+                        "title": "Content",
+                        "description": "Content of the article",
+                        "format": "string",
+                        "example": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit... \n     *              There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+                    },
+                    "thumbnail": {
+                        "title": "thumbnail",
+                        "description": "thumbnail of the Article",
+                        "format": "string",
+                        "example": "https::cloudinary.com/thumbnail/lorem/thumbnail"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "article"
+                }
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
@@ -576,6 +973,10 @@
         }
     },
     "tags": [
+        {
+            "name": "articles",
+            "description": "articles"
+        },
         {
             "name": "auth",
             "description": "auth"

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\v1\Image;
 
 use Illuminate\Http\Request;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Services\ImageUploadService;
+use App\Http\Requests\Image\UploadFormRequest;
 
 class UploadController extends Controller
 {
@@ -24,7 +26,7 @@ class UploadController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  @OA\Property(
-     *                      property="avatar",
+     *                      property="image",
      *                      type="string",
      *                      format="binary",
      *                      description="image file to upload"
@@ -38,29 +40,28 @@ class UploadController extends Controller
      *          @OA\JsonContent(
      *              example={
      *                  "message": "Uploaded successfully!",
-     *                  "imageUploadUrl": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+     *                  "data": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
      *              }
      *          )
      *      ),
      *      @OA\Response(response="401", description="Unauthenticated")
      * )
      */
-    public function store(Request $request) {
-        $request->validate([
-            'image' => 'image|mimes:jpg,png,jpeg,JPG,PNG|max:2048',
-        ]);
-
+    public function store(UploadFormRequest $request) {
         try {
-            $imageUploadUrl = $this->imageUploadService->upload($request->file('image'));
+            $imageUploadUrl = $this->imageUploadService->upload($request->validated());
 
-            return response()->json([
-                'message' => 'Uploaded successfully!',
-                'imageUploadUrl' => $imageUploadUrl
-            ], 201);
+            return ResponseHelper::success(
+                message: "Uploaded successfully!", 
+                data: $imageUploadUrl, 
+                statusCode: 201
+            );
+            
         } catch (\Exception $e) {
-            return response([
-                'message' => $e->getMessage()
-            ], 500);
+            return ResponseHelper::error(
+                message: $e->getMessage(),  
+                statusCode: 500
+            );
         }
     }
 }

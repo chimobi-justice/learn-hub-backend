@@ -25,7 +25,11 @@ class DeleteProfileController extends Controller
     {
         try {
             if (auth()->check()) {
-              auth()->user()->delete();
+              $user = auth()->user();
+
+              $user->articles()->delete();
+  
+              $user->delete();
   
               return response(null, 204);
             }

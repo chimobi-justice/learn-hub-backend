@@ -19,7 +19,6 @@ The following tools are required in order to start the installation.
 2. Run `composer install` to install the PHP dependencies
 3. Set up a local database called `learn-hub` or use a sqlite databse
 4. Run `valet link` to link the site to a testing web address
-5. Configure the (optional) features from below
 
 ### Please note if you're using Herd just install and start your application. 
 
