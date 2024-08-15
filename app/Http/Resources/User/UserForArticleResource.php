@@ -56,6 +56,10 @@ class UserForArticleResource extends JsonResource
             'fullname' => $this->fullname,
             'username' => $this->username,
             'avatar' => $this->avatar,
+            'profile_headlines' => $this->profile_headlines,
+            'twitter' => $this->twitter,
+            'gitHub' => $this->gitHub,
+            'website' => $this->website,
         ];
     }
 }

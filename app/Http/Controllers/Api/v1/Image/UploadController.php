@@ -49,7 +49,7 @@ class UploadController extends Controller
      */
     public function store(UploadFormRequest $request) {
         try {
-            $imageUploadUrl = $this->imageUploadService->upload($request->validated());
+            $imageUploadUrl = $this->imageUploadService->upload($request->file('image'));
 
             return ResponseHelper::success(
                 message: "Uploaded successfully!", 
@@ -59,7 +59,7 @@ class UploadController extends Controller
             
         } catch (\Exception $e) {
             return ResponseHelper::error(
-                message: $e->getMessage(),  
+                message: "An error occurred while uploading the image. Please try again.",  
                 statusCode: 500
             );
         }

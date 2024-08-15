@@ -35,7 +35,7 @@ class DeleteArticleController extends Controller
     *    @OA\Response(response="403", description="You are not authorized to delete this article."),
     * )
     */
-    public function delete(Request $request, Article $article) {        
+    public function delete(Article $article) {        
          if (Gate::denies('delete', $article)) {
             return ResponseHelper::error(
                 message: "You are not authorized to delete this article.", 

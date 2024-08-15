@@ -24,7 +24,7 @@ class ArticleFormRequest extends FormRequest
         return [
             'thumbnail' => 'required',
             'title' => 'required|string|max:255',
-            'content' => 'required|max:8000',
+            'content' => 'required',
             // 'tags' => 'nullable',
             // 'tags.*' => 'exists:tags,id',
         ];

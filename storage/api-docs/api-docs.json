@@ -234,14 +234,14 @@
                 ]
             }
         },
-        "/articles//{article}": {
+        "/articles/{article}": {
             "get": {
                 "tags": [
                     "articles"
                 ],
                 "summary": "Get an articles by ID",
                 "description": "Get an articles by ID",
-                "operationId": "ae63368477cdc3bf78fb3950b90de8f4",
+                "operationId": "fd2268af73be3313792b6fc4943bed84",
                 "parameters": [
                     {
                         "name": "id",
@@ -269,7 +269,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/ShowArticleResource"
+                                                "$ref": "#/components/schemas/ArticleResource"
                                             }
                                         }
                                     },
@@ -767,6 +767,11 @@
                         "type": "string",
                         "example": "Article intro"
                     },
+                    "slug": {
+                        "description": "Article slug title",
+                        "type": "string",
+                        "example": "article-intro"
+                    },
                     "content": {
                         "description": "Article content",
                         "type": "string",
@@ -776,6 +781,9 @@
                         "description": "URL of the article thumbnail",
                         "type": "string",
                         "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
+                    },
+                    "created_at": {
+                        "$ref": "#/components/schemas/DateTimeResource"
                     },
                     "author": {
                         "$ref": "#/components/schemas/UserForArticleResource"
@@ -811,14 +819,37 @@
                         "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
                     },
                     "created_at": {
-                        "description": "Date of the article",
-                        "type": "string",
-                        "example": "2024-08-08T00:09:10.000000Z"
+                        "$ref": "#/components/schemas/DateTimeResource"
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "ShowArticleResource"
+                }
+            },
+            "DateTimeResource": {
+                "title": "DateTimeResource",
+                "description": "format date time",
+                "properties": {
+                    "human": {
+                        "description": "long format string",
+                        "type": "string",
+                        "example": "2 hours ago"
+                    },
+                    "date_time": {
+                        "description": "string representation",
+                        "type": "string",
+                        "example": "2024-01-22 12:01:58"
+                    },
+                    "human_short": {
+                        "description": "short format string",
+                        "type": "string",
+                        "example": "2h ago"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "DateTimeResource"
                 }
             },
             "UserForArticleResource": {
@@ -860,6 +891,12 @@
                         "description": "Title of the Article",
                         "format": "string",
                         "example": "About Reactjs and TypeScript"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Title slug of the Article",
+                        "format": "string",
+                        "example": "about-reactjs-and-typeScript"
                     },
                     "content": {
                         "title": "Content",
