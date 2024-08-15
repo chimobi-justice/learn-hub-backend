@@ -15,7 +15,7 @@ class ResponseHelper {
      */
     public static function success(
         string $message = "Operation successful", 
-        array|object $data = [], 
+        array|object|string $data = [], 
         int $statusCode = 200
     ): JsonResponse {
 
