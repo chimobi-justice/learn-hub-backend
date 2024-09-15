@@ -205,8 +205,65 @@
                     "articles"
                 ],
                 "summary": "Get list of articles",
-                "description": "Returns list of articles",
-                "operationId": "f2c1a2b3b981fb4d7d4524576a662369",
+                "description": "Returns list of articles and if limit is provided returns the number of limited articles",
+                "operationId": "6cfa8e0e46d7247c6f74cc1899ba3a6c",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of articles to return",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ArticleResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/all/paginate": {
+            "get": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Get paginated list of articles",
+                "description": "Returns paginated list of articles if limit is provided 8 by default",
+                "operationId": "ee5ef88f20affa73e00ff1087292a734",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of articles to return per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -280,6 +337,9 @@
                     },
                     "401": {
                         "description": "Unauthenticated"
+                    },
+                    "404": {
+                        "description": "Article not found"
                     }
                 },
                 "security": [
@@ -792,39 +852,6 @@
                 "type": "object",
                 "xml": {
                     "name": "ArticleResource"
-                }
-            },
-            "ShowArticleResource": {
-                "title": "ShowArticleResource",
-                "description": "Article Resource",
-                "properties": {
-                    "id": {
-                        "description": "Course ID",
-                        "type": "string",
-                        "example": "20"
-                    },
-                    "title": {
-                        "description": "Article title",
-                        "type": "string",
-                        "example": "Article intro"
-                    },
-                    "content": {
-                        "description": "Article content",
-                        "type": "string",
-                        "example": "About my article content."
-                    },
-                    "thumbnail": {
-                        "description": "URL of the article thumbnail",
-                        "type": "string",
-                        "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
-                    },
-                    "created_at": {
-                        "$ref": "#/components/schemas/DateTimeResource"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "ShowArticleResource"
                 }
             },
             "DateTimeResource": {

@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class DeleteArticleController extends Controller
 {
+    use AuthorizesRequests;
       /**
     * @OA\Delete(
     *  path="/articles/delete/{article}",
@@ -35,20 +37,16 @@ class DeleteArticleController extends Controller
     *    @OA\Response(response="403", description="You are not authorized to delete this article."),
     * )
     */
-    public function delete(Article $article) {        
-         if (Gate::denies('delete', $article)) {
-            return ResponseHelper::error(
-                message: "You are not authorized to delete this article.", 
-                statusCode: 403
-            );
-            
-        }
+    public function delete($id) {        
+        $article = Article::findOrFail($id);
+
+        $this->authorize('delete', $article);
 
         $article->delete();
 
         return ResponseHelper::success(
             message: "Article deleted successfully!", 
-            statusCode: 204
+            statusCode: 200
         );
     }
 }

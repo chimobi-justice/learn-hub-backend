@@ -68,12 +68,17 @@ class ArticleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
+
+        $isOwner = $user ? $user->id === $this->user_id : false;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
             'thumbnail' => $this->thumbnail,
+            'isOwner' => $isOwner,
             'created_at' => DateTimeResource::make($this->created_at),
             'author' => new UserForArticleResource($this->whenLoaded('user'))
         ];

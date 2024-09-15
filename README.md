@@ -16,9 +16,17 @@ The following tools are required in order to start the installation.
 ## Installation
 
 1. Clone this repository with `git clone https://github.com/chimobi-justice/learn-hub-backend.git`
+-   Change directories into learn-hub-backend
+-   cd learn-hub-backend
 2. Run `composer install` to install the PHP dependencies
-3. Set up a local database called `learn-hub` or use a sqlite databse
-4. Run `valet link` to link the site to a testing web address
+3. Set up a local database called `learn-hub` or create a sqlite databse with 
+-  touch database/database.sqlite
+4. Create the .env file by duplicating the .env.example file
+-   cp .env.example .env
+5. Set the APP_KEY value
+-   php artisan key:generate
+6. Run `valet link` to link the site to a testing web address
+
 
 ### Please note if you're using Herd just install and start your application. 
 
