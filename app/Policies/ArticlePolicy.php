@@ -6,7 +6,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ArticlesPolicy
+class ArticlePolicy
 {
     /**
      * Determine whether the user can view any models.

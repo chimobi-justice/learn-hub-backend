@@ -8,10 +8,13 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Article\ArticleFormRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditArticleController extends Controller
 {
-        /**
+    use AuthorizesRequests;
+
+    /**
     * @OA\Patch(
     *  path="/articles/edit/{article}",
     *  tags={"articles"},
@@ -50,13 +53,10 @@ class EditArticleController extends Controller
     *    @OA\Response(response="403", description="You are not authorized to edit this article.")
     * )
     */
-    public function edit(ArticleFormRequest $request, Article $article) {
-        if (Gate::denies('update', $article)) {
-            return ResponseHelper::error(
-                message: "You are not authorized to edit this article.", 
-                statusCode: 403
-            );
-        }
+    public function edit(ArticleFormRequest $request, $id) {
+        $article = Article::findOrFail($id);
+
+        $this->authorize('update', $article);
 
         $article->update($request->validated());
 

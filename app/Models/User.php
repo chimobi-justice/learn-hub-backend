@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * @OA\Schema(
@@ -22,7 +23,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 */
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, Sluggable;
+    use HasFactory, HasUuids, Notifiable, Sluggable;
 
     /**
      * The attributes that are mass assignable.

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * @OA\Schema(
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 */
 class Article extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, HasUuids, Sluggable;
 
     protected $fillable = [
         'title',

@@ -41,6 +41,12 @@ class UserForArticleResource extends JsonResource
      *   description="Course name",
      *   example="https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.jpg"
      * )
+     * * @OA\Property(
+     *   property="profile_headlines",
+     *   type="string",
+     *   description="profile_headlines",
+     *   example="Frontend Developer || Full Stack"
+     * )
      */
     private $data;
     
@@ -57,9 +63,6 @@ class UserForArticleResource extends JsonResource
             'username' => $this->username,
             'avatar' => $this->avatar,
             'profile_headlines' => $this->profile_headlines,
-            'twitter' => $this->twitter,
-            'gitHub' => $this->gitHub,
-            'website' => $this->website,
         ];
     }
 }

@@ -46,14 +46,15 @@ class ShowArticleController extends Controller
     *    @OA\Response(response="404", description="Article not found"),
     * )
     */
-    public function show($slug) {
+    public function show($id) {
         try {
-            $article = Article::where('slug', $slug)->firstOrFail();
+            $article = Article::findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 
                 data: new ArticleResource($article),
             );
+
 
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
