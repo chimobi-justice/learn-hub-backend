@@ -9,7 +9,7 @@ echo "Caching routes..."
 php artisan route:cache
 
 echo "Running migrations..."
-php artisan migrate --force
+php artisan migrate:fresh --force
 
 echo "Generating Swagger documentation..."
 php artisan l5-swagger:generate
