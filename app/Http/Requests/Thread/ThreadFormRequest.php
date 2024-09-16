@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\Thread;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticleFormRequest extends FormRequest
+class ThreadFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,6 @@ class ArticleFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'thumbnail' => [
-                'required',
-                'url',
-                'regex:/^https:\/\/res\.cloudinary\.com\/[\w\/]+\/image\/upload\/v\d+\/[\w]+\.(png|jpg|jpeg|gif|bmp|webp)$/i',
-            ],
             'title' => 'required|string|max:255',
             'content' => 'required',
         ];

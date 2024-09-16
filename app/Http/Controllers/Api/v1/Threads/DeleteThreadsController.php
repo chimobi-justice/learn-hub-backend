@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Articles;
+namespace App\Http\Controllers\Api\v1\Threads;
 
-use App\Models\Article;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class DeleteArticleController extends Controller
+class DeleteThreadsController extends Controller
 {
     use AuthorizesRequests;
-      /**
+
+    /**
     * @OA\Delete(
-    *  path="/articles/delete/{article}",
-    *  tags={"articles"},
-    *  summary="Author delete a created article",
-    *  description="Author delete a created article",
+    *  path="/threads/delete/{thread}",
+    *  tags={"threads"},
+    *  summary="Author delete a created thread",
+    *  description="Author delete a created thread",
     *  security={{"bearer_token": {}}},
     *  @OA\Parameter(
     *      name="id",
-    *      description="Article ID",
+    *      description="Thread ID",
     *      required=true,
     *      in="path",
     *      @OA\Schema(
@@ -31,29 +32,28 @@ class DeleteArticleController extends Controller
     *  ),
     *  @OA\Response(
     *        response="200", 
-    *        description="Article deleted successfully!",
+    *        description="Thread deleted successfully!",
     *   ),
     *    @OA\Response(response="401", description="Unauthenticated"),
-    *    @OA\Response(response="403", description="You are not authorized to delete this article."),
-    *    @OA\Response(response="404", description="Article not found"),
+    *    @OA\Response(response="403", description="You are not authorized to delete this Thread."),
     * )
     */
     public function delete($id) {        
         try {
-            $article = Article::findOrFail($id);
+            $thread = Thread::findOrFail($id);
 
-            $this->authorize('delete', $article);
+            $this->authorize('delete', $thread);
 
-            $article->delete();
+            $thread->delete();
 
             return ResponseHelper::success(
-                message: "Article deleted successfully!", 
+                message: "Thread deleted successfully!", 
                 statusCode: 200
             );
 
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
-                message: "Article not found",
+                message: "Thread not found",
                 statusCode: 404
             );
         }

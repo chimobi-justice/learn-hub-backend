@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Articles;
+namespace App\Http\Controllers\Api\v1\Threads;
 
-use App\Models\Article;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Article\AuthoredArticleResource;
+use App\Http\Resources\Thread\AuthoredThreadsResource;
 use App\Http\Resources\PaginationResource;
 
-class AuthoredArticlesController extends Controller
+class AuthoredThreadsController extends Controller
 {
-     /**
+    /**
      * @OA\Get(
-     *      path="/articles/authored",
-     *      tags={"articles"},
-     *      summary="Get paginated list of authored articles",
-     *      description="Returns paginated list of authored articles if limit is provided 10 by default",
+     *      path="/threads/authored",
+     *      tags={"threads"},
+     *      summary="Get paginated list of authored threads",
+     *      description="Returns paginated list of authored threads if limit is provided 10 by default",
      *      security={{"bearer_token": {}}},
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
-     *          description="Number of articles to return per page",
+     *          description="Number of threads to return per page",
      *          required=false,
      *          @OA\Schema(
      *              type="integer"
@@ -40,9 +40,9 @@ class AuthoredArticlesController extends Controller
      *                  property="data",
      *                  type="object",
      *                  @OA\Property(
-     *                      property="articles",
+     *                      property="threads",
      *                      type="array",
-     *                      @OA\Items(ref="#/components/schemas/AuthoredArticleResource")
+     *                      @OA\Items(ref="#/components/schemas/AuthoredThreadsResource")
      *                  ),
      *                  @OA\Property(
      *                      property="pagination",
@@ -54,17 +54,17 @@ class AuthoredArticlesController extends Controller
      *       )
      *  )
      */
-    public function getAuthoredArticles(Request $request) {
+    public function getAuthoredThreads(Request $request) {
         $limit = $request->query('limit', 10);
 
-        $articles = auth()->user()->articles()->paginate($limit);
+        $threads = auth()->user()->threads()->paginate($limit);
         
         return ResponseHelper::success(
             message: "success", 
             data: [
-                "articles" => AuthoredArticleResource::collection($articles),
+                "threads" => AuthoredThreadsResource::collection($threads),
                 "pagination" => PaginationResource::make($articles)
-            ],
+            ]
         );
     }
 }

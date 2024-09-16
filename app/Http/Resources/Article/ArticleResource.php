@@ -23,7 +23,7 @@ class ArticleResource extends JsonResource
      *   property="id",
      *   type="string",
      *   description="Course ID",
-     *   example="20"
+     *   example="9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
      * )
      * @OA\Property(
      *   property="title",

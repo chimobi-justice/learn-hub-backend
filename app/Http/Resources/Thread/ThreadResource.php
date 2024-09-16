@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Resources\Article;
+namespace App\Http\Resources\Thread;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User\UserForArticleResource;
 
 /**
  * @OA\Schema(
- *  title="ArticleResource",
- *  description="Article Resource",
+ *  title="ThreadResource",
+ *  description="Thread Resource",
  *  @OA\Xml(
- *   name="ArticleResource"
+ *   name="ThreadResource"
  *  )
  * )
 */
-class AuthoredArticleResource extends JsonResource
+class ThreadResource extends JsonResource
 {
-     /**
+    /**
      * @OA\Property(
      *   property="id",
      *   type="string",
@@ -43,26 +44,17 @@ class AuthoredArticleResource extends JsonResource
      *   example="About my article content."
      * )
      * @OA\Property(
-     *   property="thumbnail",
-     *   type="string",
-     *   description="URL of the article thumbnail",
-     *   example="https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
-     * 
-     * )
-     * @OA\Property(
-     *   property="can_edit_delete",
-     *   type="string",
-     *   description="if it belongs to the creator default to true else return false",
-     *   example="false"
-     * )
-     * @OA\Property(
      *   property="created_at",
      *   ref="#/components/schemas/DateTimeResource"
+     * )
+     * @OA\Property(
+     *   property="author",
+     *   ref="#/components/schemas/UserForArticleResource"
      * )
      */
     private $data;
 
-
+    
     /**
      * Transform the resource into an array.
      *
@@ -73,15 +65,15 @@ class AuthoredArticleResource extends JsonResource
         $user = auth()->user();
 
         $isOwner = $user ? $user->id === $this->user_id : false;
-        
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
-            'thumbnail' => $this->thumbnail,
-            'can_edit_delete' => $isOwner,
+            'isOwner' => $isOwner,
             'created_at' => DateTimeResource::make($this->created_at),
+            'author' => new UserForArticleResource($this->whenLoaded('user'))
         ];
     }
 }
