@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\v1\Articles\EditArticleController;
 use App\Http\Controllers\Api\v1\Articles\ShowArticleController;
 use App\Http\Controllers\Api\v1\Articles\CreateArticleController;
 use App\Http\Controllers\Api\v1\Articles\DeleteArticleController;
-use App\Http\Controllers\Api\v1\Articles\GetNewArticleController;
 use App\Http\Controllers\Api\v1\Articles\AuthoredArticlesController;
 
 Route::group(['middleware' => 'auth:api'], function() {       

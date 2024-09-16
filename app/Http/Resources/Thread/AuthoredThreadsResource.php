@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Article;
+namespace App\Http\Resources\Thread;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
@@ -15,7 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *  )
  * )
 */
-class AuthoredArticleResource extends JsonResource
+class AuthoredThreadsResource extends JsonResource
 {
      /**
      * @OA\Property(
@@ -43,17 +43,10 @@ class AuthoredArticleResource extends JsonResource
      *   example="About my article content."
      * )
      * @OA\Property(
-     *   property="thumbnail",
-     *   type="string",
-     *   description="URL of the article thumbnail",
-     *   example="https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
-     * 
-     * )
-     * @OA\Property(
      *   property="can_edit_delete",
      *   type="string",
      *   description="if it belongs to the creator default to true else return false",
-     *   example="false"
+     *   example="true"
      * )
      * @OA\Property(
      *   property="created_at",
@@ -79,7 +72,6 @@ class AuthoredArticleResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
-            'thumbnail' => $this->thumbnail,
             'can_edit_delete' => $isOwner,
             'created_at' => DateTimeResource::make($this->created_at),
         ];

@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Articles;
+namespace App\Http\Controllers\Api\v1\Threads;
 
-use App\Models\Article;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Article\ArticleResource;
+use App\Http\Resources\Thread\ThreadResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class ShowArticleController extends Controller
+class ShowThreadController extends Controller
 {
-    /**
+     /**
     * @OA\Get(
-    *  path="/articles/{article}",
-    *  tags={"articles"},
-    *  summary="Get an article by ID",
-    *  description="Get an article by ID",
+    *  path="/threads/{thread}",
+    *  tags={"threads"},
+    *  summary="Get an thread by ID",
+    *  description="Get an thread by ID",
     *  security={{"bearer_token": {}}},
     *  @OA\Parameter(
     *      name="id",
-    *      description="Article ID",
+    *      description="Thread ID",
     *      required=true,
     *      in="path",
     *      @OA\Schema(
@@ -37,28 +37,28 @@ class ShowArticleController extends Controller
     *         type="array",
     *         @OA\Items(
     *           type="object",
-    *           ref="#/components/schemas/ArticleResource"
+    *           ref="#/components/schemas/ThreadResource"
     *         )
     *       )
     *     )
     *   ),
     *    @OA\Response(response="401", description="Unauthenticated"),
-    *    @OA\Response(response="404", description="Article not found"),
+    *    @OA\Response(response="404", description="Thread not found"),
     * )
     */
     public function show($id) {
         try {
-            $article = Article::findOrFail($id);
+            $thread = Thread::findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 
-                data: new ArticleResource($article),
+                data: new ThreadResource($thread),
             );
 
 
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
-                message: "Article not found",
+                message: "Thread not found",
                 statusCode: 404
             );
         }

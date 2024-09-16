@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Articles;
+namespace App\Http\Controllers\Api\v1\Threads;
 
-use App\Models\Article;
-use Illuminate\Http\Request;
+use App\Models\Thread;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Article\ArticleResource;
+use App\Http\Resources\Thread\ThreadResource;
 use App\Http\Resources\PaginationResource;
 
-class GetArticleController extends Controller
+class GetThreadsController extends Controller
 {
-     /**
+        /**
      * @OA\Get(
-     *      path="/articles/all",
-     *      tags={"articles"},
-     *      summary="Get list of articles",
-     *      description="Returns list of articles and if limit is provided returns the number of limited articles",
+     *      path="/threads/all",
+     *      tags={"threads"},
+     *      summary="Get list of threads",
+     *      description="Returns list of threads and if limit is provided returns the number of limited threads",
      *      security={{"bearer_token": {}}},
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
-     *          description="Number of articles to return",
+     *          description="Number of threads to return",
      *          required=false,
      *          @OA\Schema(
      *              type="integer"
@@ -36,35 +36,35 @@ class GetArticleController extends Controller
      *                  type="array",
      *                   @OA\Items(
      *                   type="object",
-     *                      ref="#/components/schemas/ArticleResource"
+     *                      ref="#/components/schemas/ThreadResource"
      *                   )
      *               )
      *           )
      *       )
      *  )
      */
-    public function getAllArticles(Request $request) {
+    public function getAllThreads(Request $request) {
         $limit = $request->query("limit");
 
-        $articles = Article::latest()->limit($limit)->get();       
+        $threads = Thread::latest()->limit($limit)->get();       
 
         return ResponseHelper::success(
             message: "success", 
-            data: ArticleResource::collection($articles),
+            data: ThreadResource::collection($threads),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/articles/all/paginate",
-     *      tags={"articles"},
-     *      summary="Get paginated list of articles",
-     *      description="Returns paginated list of articles if limit is provided 8 by default",
+     *      path="/threads/all/paginate",
+     *      tags={"threads"},
+     *      summary="Get paginated list of threads",
+     *      description="Returns paginated list of threads if limit is provided 8 by default",
      *      security={{"bearer_token": {}}},
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
-     *          description="Number of articles to return per page",
+     *          description="Number of threads to return per page",
      *          required=false,
      *          @OA\Schema(
      *              type="integer"
@@ -83,9 +83,9 @@ class GetArticleController extends Controller
      *                  property="data",
      *                  type="object",
      *                  @OA\Property(
-     *                      property="articles",
+     *                      property="threads",
      *                      type="array",
-     *                      @OA\Items(ref="#/components/schemas/ArticleResource")
+     *                      @OA\Items(ref="#/components/schemas/ThreadResource")
      *                  ),
      *                  @OA\Property(
      *                      property="pagination",
@@ -97,15 +97,15 @@ class GetArticleController extends Controller
      *       )
      *  )
      */
-    public function getPaginatedArticles(Request $request) {
+    public function getPaginatedThreads(Request $request) {
         $limit = $request->query("limit", 8);
 
-        $articles = Article::latest()->paginate($limit);
+        $threads = Thread::latest()->paginate($limit);
         
         return ResponseHelper::success(
             message: "success", 
             data: [
-                "articles" => ArticleResource::collection($articles),
+                "threads" => ThreadResource::collection($threads),
                 "pagination" => PaginationResource::make($articles)
             ],
         );

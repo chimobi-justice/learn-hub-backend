@@ -25,7 +25,9 @@ The following tools are required in order to start the installation.
 -   cp .env.example .env
 5. Set the APP_KEY value
 -   php artisan key:generate
-6. Run `valet link` to link the site to a testing web address
+6. Set the JWTAuth secret key used to sign the tokens
+-  php artisan jwt:secret  
+7. Run `valet link` to link the site to a testing web address
 
 
 ### Please note if you're using Herd just install and start your application. 
@@ -35,6 +37,5 @@ You can now visit the app in your browser by visiting [http://learn-hub-backend.
 ### Some required credentials
 
 ```
-JWT_SECRET=
 CLOUDINARY_URL=
 ```
