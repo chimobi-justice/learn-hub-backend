@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ImageUploadService;
@@ -53,10 +54,13 @@ class EditProfileController extends Controller
             return response([
                 'message' => 'Profile updated successfully!'
             ], 200);
-        } catch (\Exception $e) {
-            return response([
-                'message' => $e->getMessage()
-            ], 500);           
+
+            return ResponseHelper::success(message: "Profile updated successfully!");
+        } catch (\Exception $e) {    
+            return ResponseHelper::error(
+                message: "Something went wrong!",
+                statusCode: 500
+            );
         }
     }
 }

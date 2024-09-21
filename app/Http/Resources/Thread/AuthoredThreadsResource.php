@@ -48,6 +48,12 @@ class AuthoredThreadsResource extends JsonResource
      *   description="if it belongs to the creator default to true else return false",
      *   example="true"
      * )
+     *  @OA\Property(
+     *   property="thread_like_counts",
+     *   type="number",
+     *   description="number of liked threads",
+     *   example="39"
+     * )
      * @OA\Property(
      *   property="created_at",
      *   ref="#/components/schemas/DateTimeResource"
@@ -73,6 +79,7 @@ class AuthoredThreadsResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'can_edit_delete' => $isOwner,
+            'thread_like_counts' => $this->threadLikes()->count(),
             'created_at' => DateTimeResource::make($this->created_at),
         ];
     }

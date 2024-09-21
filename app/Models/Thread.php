@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\ThreadComment;
+use App\Models\ThreadLike;
 use App\Trait\HandlesSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany; 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
@@ -61,9 +64,21 @@ class Thread extends Model
         ];
     }
 
-    protected $with = ['user'];
+    protected $with = ['user', 'threadComments.user', 'threadLikes'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     } 
+
+    public function threadLikeBy(User $user) {
+        return $this->threadLikes->contains('user_id', $user->id);
+    }
+
+    public function threadComments(): HasMany {
+        return $this->hasMany(ThreadComment::class)->latest();
+    }
+
+    public function threadLikes(): HasMany {
+        return $this->hasMany(ThreadLike::class);
+    }
 }

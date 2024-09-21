@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Api\v1\Threads;
 
+use App\Models\User;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Thread\AuthoredThreadsResource;
 use App\Http\Resources\PaginationResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthoredThreadsController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/threads/authored",
+     *      path="/threads/authored/{username}",
      *      tags={"threads"},
-     *      summary="Get paginated list of authored threads",
-     *      description="Returns paginated list of authored threads if limit is provided 10 by default",
+     *      summary="Fetch paginated threads authored by the authenticated user, please pass the authored username",
+     *      description="Returns paginated threads authored by the authenticated user if limit is provided 10 by default",
      *      security={{"bearer_token": {}}},
      *      @OA\Parameter(
      *          name="limit",
@@ -54,17 +56,31 @@ class AuthoredThreadsController extends Controller
      *       )
      *  )
      */
-    public function getAuthoredThreads(Request $request) {
-        $limit = $request->query('limit', 10);
+    public function getAuthoredThreads(Request $request, $username) {
+        try {
+            $user = User::where('username', $username)->firstOrFail();
 
-        $threads = auth()->user()->threads()->paginate($limit);
-        
-        return ResponseHelper::success(
-            message: "success", 
-            data: [
-                "threads" => AuthoredThreadsResource::collection($threads),
-                "pagination" => PaginationResource::make($articles)
-            ]
-        );
+            if (auth()->id() !== $user->id) {
+                throw new ModelNotFoundException();
+            }
+            
+            $limit = $request->query('limit', 10);
+
+            $threads = $user->threads()->paginate($limit);
+            
+            return ResponseHelper::success(
+                message: "Success",
+                data: [
+                    "threads" => AuthoredThreadsResource::collection($threads),
+                    "pagination" => PaginationResource::make($threads)
+                ]
+            );
+            
+        } catch (ModelNotFoundException $th) {
+            return ResponseHelper::error(
+                message: "Resource not found",
+                statusCode: 404
+            );
+        }
     }
 }

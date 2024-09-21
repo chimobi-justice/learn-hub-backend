@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\Articles;
 
+use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
@@ -13,10 +14,10 @@ class AuthoredArticlesController extends Controller
 {
      /**
      * @OA\Get(
-     *      path="/articles/authored",
+     *      path="/articles/authored/{username}",
      *      tags={"articles"},
-     *      summary="Get paginated list of authored articles",
-     *      description="Returns paginated list of authored articles if limit is provided 10 by default",
+     *      summary="Fetch paginated articles authored by the authenticated user, please pass the authored username",
+     *      description="Returns paginated articles authored by the authenticated user if limit is provided 10 by default",
      *      security={{"bearer_token": {}}},
      *      @OA\Parameter(
      *          name="limit",
@@ -54,17 +55,30 @@ class AuthoredArticlesController extends Controller
      *       )
      *  )
      */
-    public function getAuthoredArticles(Request $request) {
-        $limit = $request->query('limit', 10);
+    public function getAuthoredArticles(Request $request, $username) {
+        try {
+            $user = User::where('username', $username)->firstOrFail();
 
-        $articles = auth()->user()->articles()->paginate($limit);
+            if (auth()->id() !== $user->id) {
+                throw new ModelNotFoundException();
+            }
+            
+            $limit = $request->query('limit', 10);
+
+            $articles = $user->articles()->paginate($limit);
         
-        return ResponseHelper::success(
-            message: "success", 
-            data: [
-                "articles" => AuthoredArticleResource::collection($articles),
-                "pagination" => PaginationResource::make($articles)
-            ],
-        );
+            return ResponseHelper::success(
+                message: "success", 
+                data: [
+                    "articles" => AuthoredArticleResource::collection($articles),
+                    "pagination" => PaginationResource::make($articles)
+                ]
+            );
+        } catch (ModelNotFoundException $th) {
+            return ResponseHelper::error(
+                message: "Resource not found",
+                statusCode: 404
+            );
+        }
     }
 }

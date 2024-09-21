@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -44,12 +45,8 @@ class PasswordController extends Controller
             'password' => 'required|confirmed', 
         ]);
 
-        auth()->user()->update([
-            'password' => $request->password
-        ]);
+        auth()->user()->update(['password' => $request->password]);
 
-        return response()->json([
-            'message' => 'Password updated successfully!'
-        ]);
+        return ResponseHelper::success(message: "Password updated successfully!");
     }
 }

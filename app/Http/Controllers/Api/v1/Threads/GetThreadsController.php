@@ -100,13 +100,13 @@ class GetThreadsController extends Controller
     public function getPaginatedThreads(Request $request) {
         $limit = $request->query("limit", 8);
 
-        $threads = Thread::latest()->paginate($limit);
+        $threads = Thread::with('user')->latest()->paginate($limit);
         
         return ResponseHelper::success(
             message: "success", 
             data: [
                 "threads" => ThreadResource::collection($threads),
-                "pagination" => PaginationResource::make($articles)
+                "pagination" => PaginationResource::make($threads)
             ],
         );
     }
