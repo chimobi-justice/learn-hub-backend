@@ -5,7 +5,8 @@ namespace App\Http\Resources\Thread;
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\User\UserForArticleResource;
+use App\Http\Resources\UserShortResource;
+use App\Http\Resources\Thread\ThreadCommentResource;
 
 /**
  * @OA\Schema(
@@ -44,12 +45,30 @@ class ThreadResource extends JsonResource
      *   example="About my article content."
      * )
      * @OA\Property(
+     *   property="thread_comment_counts",
+     *   type="number",
+     *   description="Number of Thread comments",
+     *   example="67"
+     * )
+     * @OA\Property(
+     *   property="thread_like_counts",
+     *   type="number",
+     *   description="Number of Thread likes",
+     *   example="47"
+     * )
+     * @OA\Property(
+     *   property="user_liked_thread",
+     *   type="boolean",
+     *   description="if currently authenticated user like a thread already",
+     *   example="false"
+     * )
+     * @OA\Property(
      *   property="created_at",
      *   ref="#/components/schemas/DateTimeResource"
      * )
      * @OA\Property(
      *   property="author",
-     *   ref="#/components/schemas/UserForArticleResource"
+     *   ref="#/components/schemas/UserShortResource"
      * )
      */
     private $data;
@@ -66,14 +85,28 @@ class ThreadResource extends JsonResource
 
         $isOwner = $user ? $user->id === $this->user_id : false;
 
-        return [
+        $isSingleThread = $request->route('thread') !== null;
+
+        $data = [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
             'isOwner' => $isOwner,
+            'author' => new UserShortResource($this->whenLoaded('user')),
+            'thread_comment_counts' => $this->threadComments()->count(),
+            'thread_like_counts' => $this->threadLikes()->count(),
+            'user_liked_thread' => $this->when(auth()->user(), function() {
+               return $this->threadLikeBy(auth()->user());
+            }),
             'created_at' => DateTimeResource::make($this->created_at),
-            'author' => new UserForArticleResource($this->whenLoaded('user'))
         ];
+
+        // If it's a single resource (not a collection), add the actual comments
+        if ($isSingleThread) {
+            $data['thread_comments'] = ThreadCommentResource::collection($this->whenLoaded('threadComments'));
+        }
+
+        return $data;
     }
 }

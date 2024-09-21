@@ -18,14 +18,159 @@
         }
     ],
     "paths": {
-        "/articles/authored": {
+        "/articles/{article}/comments": {
+            "post": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Write a comment on a specific articles",
+                "description": "Write a comment on a specific articles",
+                "operationId": "1b06e3f945e94c27c58e12cf601a2900",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Write a comment on a specific articles",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "comment": {
+                                        "type": "string",
+                                        "example": "Hey i love your content and keep it up"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Comment successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/{article}/likes": {
+            "post": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "like a articles",
+                "description": "user can only like article if not liked before.",
+                "operationId": "376814f6d117d25e4d41f7e54be0a05c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/{article}/dislikes": {
+            "delete": {
+                "tags": [
+                    "articles"
+                ],
+                "summary": "dislike an article",
+                "description": "user dislike his/her liked article",
+                "operationId": "e22386150c8bb3325c8b75237c38f79c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Article ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/articles/authored/{username}": {
             "get": {
                 "tags": [
                     "articles"
                 ],
-                "summary": "Get paginated list of authored articles",
-                "description": "Returns paginated list of authored articles if limit is provided 10 by default",
-                "operationId": "5ea8ccaa338c0cafaf8da8fb1add6fbc",
+                "summary": "Fetch paginated articles authored by the authenticated user, please pass the authored username",
+                "description": "Returns paginated articles authored by the authenticated user if limit is provided 10 by default",
+                "operationId": "696f6afee6199e334fb4286c09d2bca7",
                 "parameters": [
                     {
                         "name": "limit",
@@ -604,7 +749,9 @@
                                 "schema": {},
                                 "example": {
                                     "message": "Uploaded successfully!",
-                                    "data": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+                                    "data": {
+                                        "imageUploadUrl": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+                                    }
                                 }
                             }
                         }
@@ -620,14 +767,14 @@
                 ]
             }
         },
-        "/threads/authored": {
+        "/threads/authored/{username}": {
             "get": {
                 "tags": [
                     "threads"
                 ],
-                "summary": "Get paginated list of authored threads",
-                "description": "Returns paginated list of authored threads if limit is provided 10 by default",
-                "operationId": "3f77fd9c113dc2e18ca08d270d6e3734",
+                "summary": "Fetch paginated threads authored by the authenticated user, please pass the authored username",
+                "description": "Returns paginated threads authored by the authenticated user if limit is provided 10 by default",
+                "operationId": "d33c367250be57389cd0141eed607f08",
                 "parameters": [
                     {
                         "name": "limit",
@@ -1022,6 +1169,151 @@
                 ]
             }
         },
+        "/threads/{thread}/comments": {
+            "post": {
+                "tags": [
+                    "threads"
+                ],
+                "summary": "Write a comment on a specific thread",
+                "description": "Write a comment on a specific thread",
+                "operationId": "43b85c8e3a8c9dc7b06bada034b2131a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Thread ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Write a comment on a specific thread",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "comment": {
+                                        "type": "string",
+                                        "example": "Hey i love your content and keep it up"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Comment successfully"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/threads/{thread}/likes": {
+            "post": {
+                "tags": [
+                    "threads"
+                ],
+                "summary": "like a thread",
+                "description": "user like can only like a thread if not liked before.",
+                "operationId": "b768269e5542a2d5e86064513b2f5004",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Thread ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/threads/{thread}/dislikes": {
+            "delete": {
+                "tags": [
+                    "threads"
+                ],
+                "summary": "dislike a thread",
+                "description": "user dislike his/her liked thread",
+                "operationId": "6e44a0b83dfc74b44c698f7ac7cec1e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Thread ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "ID": {
+                                "summary": "An UUID value.",
+                                "value": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/users/accounts/upload-avatar": {
             "patch": {
                 "tags": [
@@ -1326,11 +1618,16 @@
                         "type": "string",
                         "example": "https://res.cloudinary.com/dbx3dhfkt/image/upload/v1672045944/estudy/pictures/image-5a9482cd3-a97e-4627-dbc3-9cb53797e40a.png"
                     },
+                    "read_time": {
+                        "description": "Article content time read",
+                        "type": "string",
+                        "example": "25 mins read"
+                    },
                     "created_at": {
                         "$ref": "#/components/schemas/DateTimeResource"
                     },
                     "author": {
-                        "$ref": "#/components/schemas/UserForArticleResource"
+                        "$ref": "#/components/schemas/UserShortResource"
                     }
                 },
                 "type": "object",
@@ -1370,7 +1667,7 @@
                     "can_edit_delete": {
                         "description": "if it belongs to the creator default to true else return false",
                         "type": "string",
-                        "example": "true"
+                        "example": "false"
                     },
                     "created_at": {
                         "$ref": "#/components/schemas/DateTimeResource"
@@ -1465,6 +1762,11 @@
                         "type": "string",
                         "example": "true"
                     },
+                    "thread_like_counts": {
+                        "description": "number of liked threads",
+                        "type": "number",
+                        "example": "39"
+                    },
                     "created_at": {
                         "$ref": "#/components/schemas/DateTimeResource"
                     }
@@ -1498,11 +1800,26 @@
                         "type": "string",
                         "example": "About my article content."
                     },
+                    "thread_comment_counts": {
+                        "description": "Number of Thread comments",
+                        "type": "number",
+                        "example": "67"
+                    },
+                    "thread_like_counts": {
+                        "description": "Number of Thread likes",
+                        "type": "number",
+                        "example": "47"
+                    },
+                    "user_liked_thread": {
+                        "description": "if currently authenticated user like a thread already",
+                        "type": "boolean",
+                        "example": "false"
+                    },
                     "created_at": {
                         "$ref": "#/components/schemas/DateTimeResource"
                     },
                     "author": {
-                        "$ref": "#/components/schemas/UserForArticleResource"
+                        "$ref": "#/components/schemas/UserShortResource"
                     }
                 },
                 "type": "object",
@@ -1543,6 +1860,41 @@
                 "type": "object",
                 "xml": {
                     "name": "UserForArticleResource"
+                }
+            },
+            "UserShortResource": {
+                "title": "UserShortResource",
+                "description": "User article Resource",
+                "properties": {
+                    "id": {
+                        "description": "Id",
+                        "type": "string",
+                        "example": "9d04e3b2-7e14-472e-8095-7f7f9f0c943f"
+                    },
+                    "fullname": {
+                        "description": "Full name",
+                        "type": "string",
+                        "example": "Justice Chimobi"
+                    },
+                    "username": {
+                        "description": "Username",
+                        "type": "string",
+                        "example": "justice-chimobi"
+                    },
+                    "avatar": {
+                        "description": "Course name",
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.jpg"
+                    },
+                    "profile_headlines": {
+                        "description": "profile_headlines",
+                        "type": "string",
+                        "example": "Frontend Developer || Full Stack"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserShortResource"
                 }
             },
             "Article": {

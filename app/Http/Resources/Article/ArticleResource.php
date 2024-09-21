@@ -4,8 +4,10 @@ namespace App\Http\Resources\Article;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
+use App\Helpers\EstimateReadTime;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\User\UserForArticleResource;
+use App\Http\Resources\UserShortResource;
+use App\Http\Resources\Article\ArticleCommentResource;
 
 /**
  * @OA\Schema(
@@ -51,12 +53,18 @@ class ArticleResource extends JsonResource
      * 
      * )
      * @OA\Property(
+     *   property="read_time",
+     *   type="string",
+     *   description="Article content time read",
+     *   example="25 mins read"
+     * )
+     * @OA\Property(
      *   property="created_at",
      *   ref="#/components/schemas/DateTimeResource"
      * )
      * @OA\Property(
      *   property="author",
-     *   ref="#/components/schemas/UserForArticleResource"
+     *   ref="#/components/schemas/UserShortResource"
      * )
      */
     private $data;
@@ -72,15 +80,30 @@ class ArticleResource extends JsonResource
 
         $isOwner = $user ? $user->id === $this->user_id : false;
 
-        return [
+        $isSingleArticle = $request->route('article') !== null;
+
+        $data = [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
             'thumbnail' => $this->thumbnail,
             'isOwner' => $isOwner,
+            'read_time' => EstimateReadTime::readTime($this->content),
+            'author' => new UserShortResource($this->whenLoaded('user')),
+            'article_like_counts' => $this->articleLikes()->count(),
+            'article_comment_counts' => $this->articleComments()->count(),
+            'user_liked_article' => $this->when(auth()->user(), function() {
+               return $this->articleLikeBy(auth()->user());
+            }),
             'created_at' => DateTimeResource::make($this->created_at),
-            'author' => new UserForArticleResource($this->whenLoaded('user'))
         ];
+
+        // If it's a single resource (not a collection), add the actual comments
+        if ($isSingleArticle) {
+            $data['article_comments'] = ArticleCommentResource::collection($this->whenLoaded('articleComments'));
+        }
+
+        return $data;
     }
 }

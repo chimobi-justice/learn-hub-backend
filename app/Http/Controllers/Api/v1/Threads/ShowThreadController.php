@@ -48,14 +48,12 @@ class ShowThreadController extends Controller
     */
     public function show($id) {
         try {
-            $thread = Thread::findOrFail($id);
+            $thread = Thread::with('threadComments.user')->findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 
                 data: new ThreadResource($thread),
             );
-
-
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
                 message: "Thread not found",

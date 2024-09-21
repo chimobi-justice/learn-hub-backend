@@ -7,13 +7,17 @@ use App\Http\Controllers\Api\v1\Threads\ShowThreadController;
 use App\Http\Controllers\Api\v1\Threads\DeleteThreadsController;
 use App\Http\Controllers\Api\v1\Threads\GetThreadsController;
 use App\Http\Controllers\Api\v1\Threads\AuthoredThreadsController;
-
+use App\Http\Controllers\Api\v1\Threads\ThreadCommentController;
+use App\Http\Controllers\Api\v1\Threads\ThreadLikeController;
 
 Route::group(['middleware' => 'auth:api'], function() {       
     Route::post('/create', [CreateThreadsController::class, 'store']);
     Route::delete('/delete/{thread}', [DeleteThreadsController::class, 'delete']);
     Route::patch('/edit/{thread}', [EditThreadsController::class, 'edit']);
-    Route::get('/authored', [AuthoredThreadsController::class, 'getAuthoredThreads']);
+    Route::get('/authored/{username}', [AuthoredThreadsController::class, 'getAuthoredThreads']);
+    Route::post('/{thread}/comments', [ThreadCommentController::class, 'store']);
+    Route::post('/{thread}/likes', [ThreadLikeController::class, 'store']);
+    Route::delete('/{thread}/dislikes', [ThreadLikeController::class, 'destroy']);
 });
 
 Route::get('/all', [GetThreadsController::class, 'getAllThreads']);

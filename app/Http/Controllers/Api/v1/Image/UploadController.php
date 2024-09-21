@@ -40,7 +40,9 @@ class UploadController extends Controller
      *          @OA\JsonContent(
      *              example={
      *                  "message": "Uploaded successfully!",
-     *                  "data": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+     *                  "data": {
+     *                      "imageUploadUrl": "https://res.cloudinary.com/estudy/image/upload/v1705789451/yofikr4gyecw04sp5ial.png"
+     *                  }
      *              }
      *          )
      *      ),
@@ -53,7 +55,9 @@ class UploadController extends Controller
 
             return ResponseHelper::success(
                 message: "Uploaded successfully!", 
-                data: $imageUploadUrl, 
+                data: [
+                  "imageUploadUrl" => $imageUploadUrl, 
+                ],
                 statusCode: 201
             );
             

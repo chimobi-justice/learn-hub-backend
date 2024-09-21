@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -28,15 +29,18 @@ class DeleteProfileController extends Controller
               $user = auth()->user();
 
               $user->articles()->delete();
+
+              $user->threads()->delete();
   
               $user->delete();
   
               return response(null, 204);
             }
           } catch (\Exception $e) {
-              return response([
-                  'message' => $e->getMessage()
-              ]);
+              return ResponseHelper::error(
+                message: "Something went wrong!",
+                statusCode: 500
+            );
           }
     }
 }

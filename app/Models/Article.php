@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\ArticleLike;
+use App\Models\ArticleComment;
 use App\Trait\HandlesSlug;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
@@ -87,9 +90,21 @@ class Article extends Model
         ];
     }
 
-    protected $with = ['user'];
+    protected $with = ['user', 'articleComments.user', 'articleLikes'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     } 
+
+    public function articleLikeBy(User $user) {
+        return $this->articleLikes->contains('user_id', $user->id);
+    }
+
+    public function articleComments(): HasMany {
+        return $this->hasMany(ArticleComment::class)->latest();
+    }
+
+    public function articleLikes(): HasMany {
+        return $this->hasMany(ArticleLike::class);
+    }
 }

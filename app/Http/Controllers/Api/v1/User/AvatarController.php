@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -38,17 +39,14 @@ class AvatarController extends Controller
      */  
     public function store(Request $request) {
         try {
-            $request->user()->update([
-                'avatar' => $request->avatar
-            ]);
+            $request->user()->update(['avatar' => $request->avatar]);
 
-            return response([
-                'message' => 'Updated successfully!'
-            ], 200);
+            return ResponseHelper::success(message: "Updated successfully!");
         } catch (\Exception $e) {
-            return response([
-                'message' => $e->getMessage()
-            ], 500);           
+            return ResponseHelper::error(
+                message: "Something went wrong!",
+                statusCode: 500
+            );
         }
     }
 }

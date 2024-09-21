@@ -53,10 +53,8 @@ class EditThreadsController extends Controller
     *    @OA\Response(response="404", description="Thread not found")
     * )
     */
-    public function edit(ThreadFormRequest $request, $id) {
+    public function edit(ThreadFormRequest $request, Thread $thread) {
         try {
-            $thread = Thread::findOrFail($id);
-
             $this->authorize('update', $thread);
     
             $thread->update($request->validated());

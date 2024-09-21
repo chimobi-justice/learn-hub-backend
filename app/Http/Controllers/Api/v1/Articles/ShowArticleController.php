@@ -48,14 +48,12 @@ class ShowArticleController extends Controller
     */
     public function show($id) {
         try {
-            $article = Article::findOrFail($id);
+            $article = Article::with('articleComments.user')->findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 
                 data: new ArticleResource($article),
             );
-
-
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
                 message: "Article not found",

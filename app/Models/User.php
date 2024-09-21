@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Article;
+use App\Models\ArticleLike;
 use App\Models\Thread;
+use App\Models\ThreadLike;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -210,8 +212,16 @@ class User extends Authenticatable implements JWTSubject
     public function articles(): HasMany {
         return $this->hasMany(Article::class);
     }  
+
+    public function articleLikes(): HasMany {
+        return $this->hasMany(ArticleLike::class);
+    }
     
     public function threads(): HasMany {
         return $this->hasMany(Thread::class);
     }  
+
+    public function threadLikes(): HasMany {
+        return $this->hasMany(ThreadLike::class);
+    }
 }
