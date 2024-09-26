@@ -4,6 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EditProfileFormRequest extends FormRequest
 {
@@ -30,11 +31,11 @@ class EditProfileFormRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:users,username' . $userId
+                Rule::unique('users', 'username')->ignore($userId)
             ],
             'twitter' => 'required|string|max:255',
-            'gitHub' => 'required|string|max:255',
-            'website' => 'required|string|max:255',
+            'gitHub' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
             'profile_headlines' => 'required|string|max:255',
             'bio' => 'required|string|max:1000',
             'state' => 'required|string|max:255',

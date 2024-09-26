@@ -23,3 +23,4 @@ Route::group(['middleware' => 'auth:api'], function() {
 Route::get('/all', [GetThreadsController::class, 'getAllThreads']);
 Route::get('/all/paginate', [GetThreadsController::class, 'getPaginatedThreads']);
 Route::get('/{thread}', [ShowThreadController::class, 'show']);
+Route::get('/authored/{username}/public', [AuthoredThreadsController::class, 'getPublicAuthoredThreads']);

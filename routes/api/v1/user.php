@@ -14,3 +14,5 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::patch('/accounts/update-password', [PasswordController::class, 'store']);
     Route::delete('/accounts/delete', [DeleteProfileController::class, 'destroy']);
 });
+
+Route::get('/{user:username}', [UserController::class, 'publicUser']);

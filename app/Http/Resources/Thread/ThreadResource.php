@@ -7,6 +7,7 @@ use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserShortResource;
 use App\Http\Resources\Thread\ThreadCommentResource;
+use Illuminate\Support\Number;
 
 /**
  * @OA\Schema(
@@ -94,8 +95,8 @@ class ThreadResource extends JsonResource
             'content' => $this->content,
             'isOwner' => $isOwner,
             'author' => new UserShortResource($this->whenLoaded('user')),
-            'thread_comment_counts' => $this->threadComments()->count(),
-            'thread_like_counts' => $this->threadLikes()->count(),
+            'thread_comment_counts' => Number::abbreviate($this->threadComments()->count()),
+            'thread_like_counts' => Number::abbreviate($this->threadLikes()->count()),
             'user_liked_thread' => $this->when(auth()->user(), function() {
                return $this->threadLikeBy(auth()->user());
             }),
