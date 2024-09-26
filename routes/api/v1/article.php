@@ -23,3 +23,4 @@ Route::group(['middleware' => 'auth:api'], function() {
 Route::get('/all', [GetArticleController::class, 'getAllArticles']);
 Route::get('/all/paginate', [GetArticleController::class, 'getPaginatedArticles']);
 Route::get('/{article}', [ShowArticleController::class, 'show']);
+Route::get('/authored/{username}/public', [AuthoredArticlesController::class, 'getPublicAuthoredArticles']);

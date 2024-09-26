@@ -5,6 +5,7 @@ namespace App\Http\Resources\Thread;
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 /**
  * @OA\Schema(
@@ -79,7 +80,7 @@ class AuthoredThreadsResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'can_edit_delete' => $isOwner,
-            'thread_like_counts' => $this->threadLikes()->count(),
+            'thread_like_counts' => Number::abbreviate($this->threadLikes()->count()),
             'created_at' => DateTimeResource::make($this->created_at),
         ];
     }

@@ -8,6 +8,7 @@ use App\Helpers\EstimateReadTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserShortResource;
 use App\Http\Resources\Article\ArticleCommentResource;
+use Illuminate\Support\Number;
 
 /**
  * @OA\Schema(
@@ -91,8 +92,8 @@ class ArticleResource extends JsonResource
             'isOwner' => $isOwner,
             'read_time' => EstimateReadTime::readTime($this->content),
             'author' => new UserShortResource($this->whenLoaded('user')),
-            'article_like_counts' => $this->articleLikes()->count(),
-            'article_comment_counts' => $this->articleComments()->count(),
+            'article_like_counts' => Number::abbreviate($this->articleLikes()->count()),
+            'article_comment_counts' => Number::abbreviate($this->articleComments()->count()),
             'user_liked_article' => $this->when(auth()->user(), function() {
                return $this->articleLikeBy(auth()->user());
             }),
