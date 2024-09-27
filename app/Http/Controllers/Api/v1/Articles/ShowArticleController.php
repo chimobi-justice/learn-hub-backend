@@ -48,7 +48,7 @@ class ShowArticleController extends Controller
     */
     public function show($id) {
         try {
-            $article = Article::with('articleComments.user')->findOrFail($id);
+            $article = Article::findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 
