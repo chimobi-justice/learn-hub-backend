@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Article\ArticleResource;
+use App\Http\Resources\Article\ArticleShortResource;
 use App\Http\Resources\PaginationResource;
 
 class GetArticleController extends Controller
@@ -36,7 +37,7 @@ class GetArticleController extends Controller
      *                  type="array",
      *                   @OA\Items(
      *                   type="object",
-     *                      ref="#/components/schemas/ArticleResource"
+     *                      ref="#/components/schemas/ArticleShortResource"
      *                   )
      *               )
      *           )
@@ -50,7 +51,7 @@ class GetArticleController extends Controller
 
         return ResponseHelper::success(
             message: "success", 
-            data: ArticleResource::collection($articles),
+            data: ArticleShortResource::collection($articles),
         );
     }
 

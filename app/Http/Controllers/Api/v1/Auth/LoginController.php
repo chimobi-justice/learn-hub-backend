@@ -55,12 +55,9 @@ class LoginController extends Controller
     }
 
     protected function respondWithToken(string $token): JsonResponse  {
-        $user = auth()->user();
-        
         return response()->json([
             'message' => 'Logged in successfully',
-            'access_token' => $token,
-            'username' => $user->username
+            'access_token' => $token
         ]);
     }
 

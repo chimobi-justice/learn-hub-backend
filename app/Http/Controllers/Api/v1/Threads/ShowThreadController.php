@@ -48,7 +48,7 @@ class ShowThreadController extends Controller
     */
     public function show($id) {
         try {
-            $thread = Thread::with('threadComments.user')->findOrFail($id);
+            $thread = Thread::findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 

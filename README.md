@@ -9,7 +9,6 @@ This is the backend api for [learn-hub](https://learn-hub-rosy.vercel.app/) comm
 
 The following tools are required in order to start the installation.
 
-- PHP ^8.2
 - [Composer](https://getcomposer.org/download/)
 - [Valet](https://laravel.com/docs/valet#installation)
 
