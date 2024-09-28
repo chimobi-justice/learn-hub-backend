@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Image\UploadController;
+use App\Http\Controllers\Api\v1\SearchController;
 
 Route::post('/image/upload', [UploadController::class, 'store']);
+
+Route::get('/search', [SearchController::class, 'search']);
 
 Route::group(['prefix' => 'users'], function() {
 	require base_path('routes/api/v1/user.php');
