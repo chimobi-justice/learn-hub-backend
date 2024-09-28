@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
 use App\Models\Article;
 use App\Models\Thread;
 use App\Helpers\ResponseHelper;
@@ -14,37 +13,40 @@ class SearchController extends Controller
     public function search(Request $request) {
         $search = $request->query('search');
 
-        $users = User::select('id', 'fullname', 'username')
-            ->where("fullname", "like", "%$search%")
-            ->orWhere("username", "like", "%$search%")
-            ->paginate(10);
-
         $articles = Article::select('id', 'title', 'slug')
             ->where("title", "like", "%$search%")
             ->orWhere("slug", "like", "%$search%")
             ->without('user', 'articleComments', 'articleLikes') 
-            ->paginate(10);
+            ->paginate(30);
 
         $threads = Thread::select('id', 'title', 'slug')
             ->where("title", "like", "%$search%")
             ->orWhere("slug", "like", "%$search%")
             ->without('user', 'threadComments', 'threadLikes') 
-            ->paginate(10);
+            ->paginate(30);
 
         return ResponseHelper::success(
             message: "Success",
             data: [
-               'users' => [
-                    'data' => $users->items(),
-                    'total' => $users->total(),
-                ],
                 'articles' => [
-                    'data' => $articles->items(),
-                    'total' => $articles->total(),
+                    'data' => $articles->map(function ($article) {
+                        return [
+                            'id' => $article->id,
+                            'title' => $article->title,
+                            'slug' => $article->slug,
+                            'url' => "/articles/{$article->slug}/{$article->id}",
+                        ];
+                    }),
                 ],
                 'threads' => [
-                    'data' => $threads->items(),
-                    'total' => $threads->total(),
+                    'data' => $threads->map(function ($thread) {
+                        return [
+                            'id' => $thread->id,
+                            'title' => $thread->title,
+                            'slug' => $thread->slug,
+                            'url' => "/threads/{$thread->slug}/{$thread->id}",
+                        ];
+                    }),
                 ],
             ]
         );
