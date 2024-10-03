@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\v1\Articles\ArticleLikeController;
 use App\Http\Controllers\Api\v1\Articles\ArticleCommentController; 
 use App\Http\Controllers\Api\v1\Articles\RecommendedArticlesController; 
 use App\Http\Controllers\Api\v1\Articles\PinnedArticlesController; 
+use App\Http\Controllers\Api\v1\Articles\SavedUnsavedArticleController; 
 
 Route::group(['middleware' => 'auth:api'], function() {       
     Route::post('/create', [CreateArticleController::class, 'store']);
@@ -22,6 +23,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/{article}/dislikes', [ArticleLikeController::class, 'destroy']);
 
     Route::get('/recommented-articles', [RecommendedArticlesController::class, 'getRecommentedArticles']);
+
+    Route::post('/save-article/{article}', [SavedUnsavedArticleController::class, 'saveArticle']);
+    Route::delete('/unsave-article/{article_Id}', [SavedUnsavedArticleController::class, 'unsaveArticle']);
+    Route::get('/saved-articles', [SavedUnsavedArticleController::class, 'getSavedArticles']);
 });
 
 Route::get('/pinned-articles', [PinnedArticlesController::class, 'pinnedArticles']);

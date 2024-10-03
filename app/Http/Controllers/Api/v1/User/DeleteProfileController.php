@@ -31,6 +31,8 @@ class DeleteProfileController extends Controller
               $user->articles()->delete();
 
               $user->threads()->delete();
+
+              $user->savedArticles()->delete();
   
               $user->delete();
   
