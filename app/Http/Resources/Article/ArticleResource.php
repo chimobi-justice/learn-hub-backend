@@ -4,7 +4,7 @@ namespace App\Http\Resources\Article;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
-use App\Helpers\EstimateReadTime;
+use App\Helpers\EstimatedReadTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\UserShortResource;
 use App\Http\Resources\Article\ArticleCommentResource;
@@ -90,7 +90,8 @@ class ArticleResource extends JsonResource
             'content' => $this->content,
             'thumbnail' => $this->thumbnail,
             'isOwner' => $isOwner,
-            'read_time' => EstimateReadTime::readTime($this->content),
+            'read_time' => EstimatedReadTime::readTime($this->content),
+            'is_saved' => $user ? $user->savedArticles()->where('article_id', $this->id)->exists() : false,
             'author' => new UserShortResource($this->whenLoaded('user')),
             'article_like_counts' => Number::abbreviate($this->articleLikes()->count()),
             'article_comment_counts' => Number::abbreviate($this->articleComments()->count()),

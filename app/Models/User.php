@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\ArticleLike;
 use App\Models\Thread;
 use App\Models\ThreadLike;
+use App\Models\SavedArticle;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -223,5 +224,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function threadLikes(): HasMany {
         return $this->hasMany(ThreadLike::class);
+    }
+
+    public function savedArticles(): HasMany {
+        return $this->hasMany(SavedArticle::class);
     }
 }
