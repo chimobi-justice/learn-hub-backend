@@ -11,23 +11,36 @@ use Illuminate\Http\Request;
 
 class GetFollowingUsersArticlesController extends Controller
 {
-    public function getfollowingUsersArticles(Request $request) {
-        $userId = auth()->user()->id;
-        $limit = $request->query("limit", 10);
+    public function getFollowingUsersArticles(Request $request) {
+        $user = auth()->user();
+    
+        if (!$user) {
+            return ResponseHelper::error("Unauthorized", 401);
+        }
+    
+        $limit = (int) $request->query("limit", 10);
 
-        $articles = Article::whereHas('user.followers', function($query) use ($userId) {
-            $query->where('follower_id', $userId);
-        })
-        ->withCount(['articleComments', 'articleLikes'])
-        ->orderByRaw('(article_comments_count + article_likes_count) DESC')
-        ->paginate($limit);
+        $followingUserIds = $user->followings()->pluck('user_id');
 
-        return ResponseHelper::success(
-            message: "success", 
-            data: [
-                "articles" => ArticleResource::collection($articles),
-                "pagination" => PaginationResource::make($articles)
-            ]
-        );
+        try {
+            $articles = Article::whereIn('user_id', $followingUserIds)
+                ->withCount(['articleComments', 'articleLikes'])
+                ->orderByRaw('(article_comments_count + article_likes_count) DESC')
+                ->paginate($limit);
+    
+            return ResponseHelper::success(
+                message: "Success",
+                data: [
+                    "articles" => ArticleResource::collection($articles),
+                    "pagination" => PaginationResource::make($articles)
+                ]
+            );
+        } catch (\Exception $e) {
+            return ResponseHelper::error(
+                message: "An error occurred while fetching articles", 
+                statusCode: 500
+            );
+        }
     }
+    
 }
