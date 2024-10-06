@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::patch('/accounts/update-password', [PasswordController::class, 'store']);
     Route::delete('/accounts/delete', [DeleteProfileController::class, 'destroy']);
 
-    Route::get('/my-follow-users/articles', [GetFollowingUsersArticlesController::class, 'getfollowingUsersArticles']);
+    Route::get('/my-follow-users/articles', [GetFollowingUsersArticlesController::class, 'getFollowingUsersArticles']);
 
     Route::post('/{user}/follow', [FollowUsersController::class, 'follow']);
     Route::post('/{user}/unfollow', [UnFollowUsersController::class, 'unfollow']);
