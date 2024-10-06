@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/recommented-articles', [RecommendedArticlesController::class, 'getRecommentedArticles']);
 
     Route::post('/save-article/{article}', [SavedUnsavedArticleController::class, 'saveArticle']);
-    Route::delete('/unsave-article/{article_Id}', [SavedUnsavedArticleController::class, 'unsaveArticle']);
+    Route::delete('/unsave-article/{article}', [SavedUnsavedArticleController::class, 'unsaveArticle']);
     Route::get('/saved-articles', [SavedUnsavedArticleController::class, 'getSavedArticles']);
 });
 

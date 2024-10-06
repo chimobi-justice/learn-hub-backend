@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 /**
  * @OA\Schema(
@@ -60,12 +61,18 @@ class UserShortResource extends JsonResource
     {
         $showAllAurthorDetails = $request->route('article') !== null;
 
+        $authUser = auth()->user();
+        $user = $this->resource;
+
         $data = [
             'id' => $this->id,
             'fullname' => $this->fullname,
             'username' => $this->username,
             'avatar' => $this->avatar,
             'profile_headlines' => $this->profile_headlines,
+            'followers' => Number::abbreviate($this->followers()->count()),
+            'followings' => Number::abbreviate($this->followings()->count()),
+            'is_following' => $authUser ? $authUser->follows($user) : false,
         ];
 
 

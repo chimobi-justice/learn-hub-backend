@@ -12,6 +12,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -211,7 +212,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function articles(): HasMany {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class)->latest();
     }  
 
     public function articleLikes(): HasMany {
@@ -219,7 +220,7 @@ class User extends Authenticatable implements JWTSubject
     }
     
     public function threads(): HasMany {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Thread::class)->latest();
     }  
 
     public function threadLikes(): HasMany {
@@ -227,6 +228,18 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function savedArticles(): HasMany {
-        return $this->hasMany(SavedArticle::class);
+        return $this->hasMany(SavedArticle::class)->latest();
+    }
+
+    public function followings(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'follower_user', 'follower_id', 'user_id')->withTimeStamps();
+    }
+
+    public function followers(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'follower_user', 'user_id', 'follower_id')->withTimeStamps();
+    }
+
+    public function follows(User $user) {
+        return $this->followings()->where('user_id', $user->id)->exists();
     }
 }

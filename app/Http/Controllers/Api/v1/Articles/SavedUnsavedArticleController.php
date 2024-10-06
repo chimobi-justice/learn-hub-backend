@@ -28,10 +28,10 @@ class SavedUnsavedArticleController extends Controller
         }
     }
 
-    public function unsaveArticle($article_Id) {
+    public function unsaveArticle($articleId) {
         $user = auth()->user();
 
-        $savedArticle = $user->savedArticles()->where('article_id', $article_Id);
+        $savedArticle = $user->savedArticles()->where('article_id', $articleId);
 
         if ($savedArticle->exists()) {
             $savedArticle->delete();

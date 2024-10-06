@@ -93,16 +93,16 @@ class ArticleResource extends JsonResource
             'read_time' => EstimatedReadTime::readTime($this->content),
             'is_saved' => $user ? $user->savedArticles()->where('article_id', $this->id)->exists() : false,
             'author' => new UserShortResource($this->whenLoaded('user')),
-            'article_like_counts' => Number::abbreviate($this->articleLikes()->count()),
-            'article_comment_counts' => Number::abbreviate($this->articleComments()->count()),
-            'user_liked_article' => $this->when(auth()->user(), function() {
-               return $this->articleLikeBy(auth()->user());
-            }),
             'created_at' => DateTimeResource::make($this->created_at),
         ];
 
-        // If it's a single resource (not a collection), add the actual comments
+        // If it's a single resource (not a collection)
         if ($isSingleArticle) {
+            $data['article_like_counts'] = Number::abbreviate($this->articleLikes()->count());
+            $data['article_comment_counts'] = Number::abbreviate($this->articleComments()->count());
+            $data['user_liked_article'] = $this->when(auth()->user(), function() {
+               return $this->articleLikeBy(auth()->user());
+            });
             $data['article_comments'] = ArticleCommentResource::collection($this->whenLoaded('articleComments'));
         }
 
