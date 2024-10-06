@@ -13,7 +13,6 @@ class GetUsersToFollowController extends Controller
 {
     public function followUsers(Request $request) {
         $limit = $request->query("limit", 15);
-
         // Get users excluding the authenticated user and order by the number of articles and threads
         $getUsers = User::with(['articles', 'threads'])
             ->where('id', '!=', auth()->id()) // Exclude authenticated user
