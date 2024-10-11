@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\UploadedFile;
 use Exception;
 
@@ -20,7 +21,10 @@ class ImageUploadService
             $imageUpload = cloudinary()->upload($file->getRealPath())->getSecurePath();
             return $imageUpload;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            return ResponseHelper::error(
+                message: "An error occurred while uploading the image. Please try again.",  
+                statusCode: 500
+            );
         }
     }
 }
