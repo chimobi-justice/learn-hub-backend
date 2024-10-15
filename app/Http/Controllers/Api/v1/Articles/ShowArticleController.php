@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Article\ArticleResource;
+use App\Http\Resources\Article\ArticleShortResource;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ShowArticleController extends Controller
@@ -54,7 +56,33 @@ class ShowArticleController extends Controller
                 message: "success", 
                 data: new ArticleResource($article),
             );
-        } catch (ModelNotFoundException  $th) {
+        } catch (ModelNotFoundException $th) {
+            return ResponseHelper::error(
+                message: "Article not found",
+                statusCode: 404
+            );
+        }
+    }
+
+    public function getArthorArticle($id) {
+        try {
+            $article = Article::findOrFail($id);
+
+            $authorId = $article->user_id;
+
+            $relatedArticles = Article::where("user_id", $authorId)
+                ->where('id', '!=', $article->id)
+                ->limit(3)
+                ->withCount('articleComments')
+                ->orderBy('article_comments_count', 'desc')
+                ->get();
+
+            return ResponseHelper::success(
+                message: "Related Arthor Articles Fetch successfully!",
+                data: ArticleShortResource::collection($relatedArticles)
+            );
+
+        } catch (ModelNotFoundException $th) {
             return ResponseHelper::error(
                 message: "Article not found",
                 statusCode: 404
