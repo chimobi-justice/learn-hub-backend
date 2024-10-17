@@ -25,24 +25,31 @@ class DeleteProfileController extends Controller
     public function destroy()
     {
         try {
-            if (auth()->check()) {
-              $user = auth()->user();
-
-              $user->articles()->delete();
-
-              $user->threads()->delete();
-
-              $user->savedArticles()->delete();
-  
-              $user->delete();
-  
-              return response(null, 204);
+            if (!auth()->check()) {
+              return ResponseHelper::error(
+                message: "Unauthenticated.",
+                statusCode: 401
+              );
             }
+              $user = auth()->user();
+              // Delete related user data
+              $this->deleteUserData($user);
+              // Delete the user account
+              $user->delete();
+              // Return successful deletion response
+              return response(null, 204);
           } catch (\Exception $e) {
               return ResponseHelper::error(
                 message: "Something went wrong!",
                 statusCode: 500
             );
           }
+    }
+
+    private function deleteUserData($user) {
+      // delete user articles, threads, saved articles 
+      $user->articles()->delete();
+      $user->threads()->delete();
+      $user->savedArticles()->delete();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\Articles;
 use App\Models\Article;
 use App\Helpers\ResponseHelper;
 use App\Http\Resources\Article\ArticleSavedResource;
+use App\Http\Resources\PaginationResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -47,12 +48,16 @@ class SavedUnsavedArticleController extends Controller
 
     public function getSavedArticles(Request $request) {
         $user = auth()->user();
+        $limit = (int) $request->query("limit", 15);
 
-        $saveArticles = $user->savedArticles()->with('article.user')->latest()->get();
+        $saveArticles = $user->savedArticles()->with('article.user')->latest()->paginate($limit);
 
         return ResponseHelper::success(
             message: "Success",
-            data: ArticleSavedResource::collection($saveArticles)
+            data: [
+                "articles" => ArticleSavedResource::collection($saveArticles),
+                "pagination" => PaginationResource::make($saveArticles)
+            ]
         );
     }
 }

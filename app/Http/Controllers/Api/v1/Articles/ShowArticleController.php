@@ -72,7 +72,7 @@ class ShowArticleController extends Controller
 
             $relatedArticles = Article::where("user_id", $authorId)
                 ->where('id', '!=', $article->id)
-                ->limit(3)
+                ->limit(4)
                 ->withCount('articleComments')
                 ->orderBy('article_comments_count', 'desc')
                 ->get();
