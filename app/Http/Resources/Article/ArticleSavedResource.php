@@ -26,9 +26,11 @@ class ArticleSavedResource extends JsonResource
             'slug' => $this->article->slug,
             'read_time' => EstimatedReadTime::readTime($this->article->content),
             'author' => [
+                'id' => $this->article->user->id,
                 'fullname' => $this->article->user->fullname,
                 'username' => $this->article->user->username,
                 'avatar' => $this->article->user->avatar,
+                'is_following' => $user ? $user->follows($this->article->user) : false,
             ],
             'likes_count' => $this->article->articleLikes()->count(),
             'comments_count' => $this->article->articleComments()->count(),

@@ -115,7 +115,7 @@ class User extends Authenticatable implements JWTSubject
      *    title="GitHub",
      *    description="GitHub of the User",
      *    format="string",
-     *    example="github.com/justice-dev"
+     *    example="https://github.com/justice-dev"
      *  )
     */
     private $gitHub;
