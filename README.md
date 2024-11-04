@@ -26,7 +26,7 @@ The following tools are required in order to start the installation.
 -   php artisan key:generate
 6. Set the JWTAuth secret key used to sign the tokens
 -  php artisan jwt:secret  
-7. Run `valet link` to link the site to a testing web address
+7. Start the application
 
 
 ### Please note if you're using Herd just install and start your application. 
@@ -38,3 +38,6 @@ You can now visit the app in your browser by visiting [http://learn-hub-backend.
 ```
 CLOUDINARY_URL=
 ```
+
+## Maintainers
+The Learn-hub community portal is currently maintained by [Justice Chimobi](https://justice-chimobi.vercel.app/). If you have any questions please don't hesitate to create an issue on this repo.

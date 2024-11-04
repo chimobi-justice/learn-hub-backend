@@ -101,12 +101,8 @@ class ThreadResource extends JsonResource
                return $this->threadLikeBy(auth()->user());
             }),
             'created_at' => DateTimeResource::make($this->created_at),
+            'thread_comments' => $isSingleThread ? ThreadCommentResource::collection($this->whenLoaded('threadComments')) : null,
         ];
-
-        // If it's a single resource (not a collection), add the actual comments
-        if ($isSingleThread) {
-            $data['thread_comments'] = ThreadCommentResource::collection($this->whenLoaded('threadComments'));
-        }
 
         return $data;
     }

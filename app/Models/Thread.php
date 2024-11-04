@@ -64,7 +64,12 @@ class Thread extends Model
         ];
     }
 
-    protected $with = ['user', 'threadComments.user', 'threadLikes'];
+    protected $with = [
+        'user', 
+        'threadComments.user', 
+        'threadComments.replies.user',
+        'threadLikes'
+    ];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
@@ -75,7 +80,7 @@ class Thread extends Model
     }
 
     public function threadComments(): HasMany {
-        return $this->hasMany(ThreadComment::class)->latest();
+        return $this->hasMany(ThreadComment::class)->whereNull('parent_id')->latest();
     }
 
     public function threadLikes(): HasMany {

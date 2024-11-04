@@ -48,14 +48,21 @@ class ThreadCommentController extends Controller
     * )
     */
     public function store(ThreadCommentFormRequest $request, Thread $thread) {
-        $thread->threadComments()->create(array_merge(
-            $request->validated(),
-            ['user_id' => Auth::id()]
-        ));
+        $thread->threadComments()->create([
+            'comment' => $request->input('comment'),
+            'user_id' => Auth::id(),
+            'parent_id' => $request->input('parent_id')
+        ]);
 
         return ResponseHelper::success(
             message: "Commented successfully", 
             statusCode: 201
         );
     }
+
+    // public function destroy(Request $request, Thread $thread) {
+    //     return ResponseHelper::success(
+    //         statusCode: 204
+    //     );
+    // }
 }

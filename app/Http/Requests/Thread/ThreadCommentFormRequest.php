@@ -23,6 +23,8 @@ class ThreadCommentFormRequest extends FormRequest
     {
         return [
             'comment' => 'required|string',
+            'parent_id' => 'nullable|exists:thread_comments,id',
+
         ];
     }
 }

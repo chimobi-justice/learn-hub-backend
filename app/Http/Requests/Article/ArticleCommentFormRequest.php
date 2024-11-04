@@ -23,6 +23,7 @@ class ArticleCommentFormRequest extends FormRequest
     {
         return [
             'comment' => 'required|string',
+            'parent_id' => 'nullable|exists:article_comments,id',
         ];
     }
 }

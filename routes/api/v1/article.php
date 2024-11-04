@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/delete/{article}', [DeleteArticleController::class, 'delete']);
     Route::patch('/edit/{article}', [EditArticleController::class, 'edit']);
     Route::get('/authored/{username}', [AuthoredArticlesController::class, 'getAuthoredArticles']);
+    Route::delete('/{article}/comments', [ArticleCommentController::class, 'destroy']);
     Route::post('/{article}/comments', [ArticleCommentController::class, 'store']);
     Route::post('/{article}/likes', [ArticleLikeController::class, 'store']);
     Route::delete('/{article}/dislikes', [ArticleLikeController::class, 'destroy']);

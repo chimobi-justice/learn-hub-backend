@@ -48,14 +48,21 @@ class ArticleCommentController extends Controller
     * )
     */
     public function store(ArticleCommentFormRequest $request, Article $article) {
-        $article->articleComments()->create(array_merge(
-            $request->validated(),
-            ['user_id' => Auth::id()]
-        ));
+        $article->articleComments()->create([
+            'comment' => $request->input('comment'),
+            'user_id' => Auth::id(),
+            'parent_id' => $request->input('parent_id')
+        ]);
 
         return ResponseHelper::success(
             message: "Commented successfully", 
-            statusCode: 201
+            statusCode: 201,
         );
     }
+
+    // public function destroy(Request $request, Article $article) {
+    //     return ResponseHelper::success(
+    //         statusCode: 204
+    //     );
+    // }
 }

@@ -90,7 +90,12 @@ class Article extends Model
         ];
     }
 
-    protected $with = ['user', 'articleComments.user', 'articleLikes'];
+    protected $with = [
+        'user', 
+        'articleComments.user',
+        'articleComments.replies.user',
+        'articleLikes'
+    ];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
@@ -101,7 +106,7 @@ class Article extends Model
     }
 
     public function articleComments(): HasMany {
-        return $this->hasMany(ArticleComment::class)->latest();
+        return $this->hasMany(ArticleComment::class)->whereNull('parent_id')->latest();
     }
 
     public function articleLikes(): HasMany {
