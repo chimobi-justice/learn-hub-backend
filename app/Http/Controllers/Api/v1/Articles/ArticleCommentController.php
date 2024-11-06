@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1\Articles;
 
 use App\Models\Article;
+use App\Models\ArticleComment;
 use App\Http\Requests\Article\ArticleCommentFormRequest;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -60,10 +61,24 @@ class ArticleCommentController extends Controller
         );
     }
     
+    public function destroy($id) {
+        try {
+            $comment = ArticleComment::findOrFail($id);
 
-    // public function destroy(Request $request, Article $article) {
-    //     return ResponseHelper::success(
-    //         statusCode: 204
-    //     );
-    // }
+            // $this->authorize('delete', $comment);
+
+            $comment->delete();
+
+            return ResponseHelper::success(
+                message: "Deleted successfully!", 
+                statusCode: 200
+            );
+
+        } catch (ModelNotFoundException  $th) {
+            return ResponseHelper::error(
+                message: "Comment not found",
+                statusCode: 404
+            );
+        }
+    }
 }
