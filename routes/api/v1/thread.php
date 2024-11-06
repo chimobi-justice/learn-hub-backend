@@ -15,10 +15,11 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/delete/{thread}', [DeleteThreadsController::class, 'delete']);
     Route::patch('/edit/{thread}', [EditThreadsController::class, 'edit']);
     Route::get('/authored/{username}', [AuthoredThreadsController::class, 'getAuthoredThreads']);
-    Route::delete('/{thread}/comments', [ThreadCommentController::class, 'destroy']);
     Route::post('/{thread}/comments', [ThreadCommentController::class, 'store']);
-    Route::post('/{thread}/likes', [ThreadLikeController::class, 'store']);
-    Route::delete('/{thread}/dislikes', [ThreadLikeController::class, 'destroy']);
+
+    Route::delete('/comments/{threadComment}', [ThreadCommentController::class, 'destroy']);
+    Route::post('/{threadLike}/likes', [ThreadLikeController::class, 'store']);
+    Route::delete('/{threadLike}/dislikes', [ThreadLikeController::class, 'destroy']);
 });
 
 Route::get('/all', [GetThreadsController::class, 'getAllThreads']);

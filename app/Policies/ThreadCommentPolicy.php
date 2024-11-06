@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Thread;
+use App\Models\ThreadComment;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ThreadPolicy
+class ThreadCommentPolicy
 {
     /**
      * Determine whether the user can create models.
@@ -19,16 +19,17 @@ class ThreadPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Thread $thread): bool
+    public function update(User $user, ThreadComment $threadComment): bool
     {
-        return $user->id === $thread->user_id;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Thread $thread): bool
+    public function delete(User $user, ThreadComment $threadComment): bool
     {
-        return $user->id === $thread->user_id;
+        return $user->id === $threadComment->user_id;
     }
+
 }

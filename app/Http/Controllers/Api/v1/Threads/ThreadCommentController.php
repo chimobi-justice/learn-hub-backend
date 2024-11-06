@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Api\v1\Threads;
 
 use App\Models\Thread;
+use App\Models\ThreadComment;
 use App\Http\Requests\Thread\ThreadCommentFormRequest;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ThreadCommentController extends Controller
 {
+    use AuthorizesRequests;
     /**
     * @OA\Post(
     *  path="/threads/{thread}/comments",
@@ -60,9 +64,24 @@ class ThreadCommentController extends Controller
         );
     }
 
-    // public function destroy(Request $request, Thread $thread) {
-    //     return ResponseHelper::success(
-    //         statusCode: 204
-    //     );
-    // }
+    public function destroy($id) {
+        try {
+            $comment = ThreadComment::findOrFail($id);
+
+            $this->authorize('delete', $comment);
+
+            $comment->delete();
+
+            return ResponseHelper::success(
+                message: "Deleted successfully!", 
+                statusCode: 200
+            );
+
+        } catch (ModelNotFoundException  $th) {
+            return ResponseHelper::error(
+                message: "Comment not found",
+                statusCode: 404
+            );
+        }
+    }
 }

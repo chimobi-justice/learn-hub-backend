@@ -18,11 +18,15 @@ class ThreadCommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
+        $isOwner = $user ? $user->id === $this->user_id : false;
+
         return [
             'id' => $this->id,
             'thread_id' => $this->thread_id,
             'comment' => $this->comment,
             'user' => new ThreadUserResource($this->whenLoaded('user')),
+            'isOwner' => $isOwner,
             'created_at' => DateTimeResource::make($this->created_at),
             'replies_count' => $this->replies->count(),
             'replies' => ThreadCommentResource::collection($this->whenLoaded('replies')),
