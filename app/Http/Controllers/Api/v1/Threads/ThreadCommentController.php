@@ -64,6 +64,21 @@ class ThreadCommentController extends Controller
         );
     }
 
+    public function edit(ThreadCommentFormRequest $request, ThreadComment $thread) {
+        try {
+            $thread->update([
+                'comment' => $request->input('comment'),
+            ]);
+            
+            return ResponseHelper::success(message: "Your reply edited successfully");
+        } catch (ModelNotFoundException $th) {
+            return ResponseHelper::error(
+                message: "Not found",
+                statusCode: 404
+            );
+        }
+    }
+
     public function destroy($id) {
         try {
             $comment = ThreadComment::findOrFail($id);
@@ -76,7 +91,6 @@ class ThreadCommentController extends Controller
                 message: "Deleted successfully!", 
                 statusCode: 200
             );
-
         } catch (ModelNotFoundException  $th) {
             return ResponseHelper::error(
                 message: "Comment not found",

@@ -16,6 +16,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::patch('/edit/{thread}', [EditThreadsController::class, 'edit']);
     Route::get('/authored/{username}', [AuthoredThreadsController::class, 'getAuthoredThreads']);
     Route::post('/{thread}/comments', [ThreadCommentController::class, 'store']);
+    Route::patch('/{thread}/comments', [ThreadCommentController::class, 'edit']);
 
     Route::delete('/comments/{threadComment}', [ThreadCommentController::class, 'destroy']);
     Route::post('/{threadLike}/likes', [ThreadLikeController::class, 'store']);
