@@ -60,12 +60,25 @@ class ArticleCommentController extends Controller
             statusCode: 201,
         );
     }
+
+    public function edit(ArticleCommentFormRequest $request, ArticleComment $article) {
+        try {
+            $article->update([
+                'comment' => $request->input('comment'),
+            ]);
+            
+            return ResponseHelper::success(message: "Your reply edited successfully");
+        } catch (ModelNotFoundException $th) {
+            return ResponseHelper::error(
+                message: "Not found",
+                statusCode: 404
+            );
+        }
+    }
     
     public function destroy($id) {
         try {
             $comment = ArticleComment::findOrFail($id);
-
-            // $this->authorize('delete', $comment);
 
             $comment->delete();
 
