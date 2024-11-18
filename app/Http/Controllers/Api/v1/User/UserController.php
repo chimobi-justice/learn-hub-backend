@@ -45,7 +45,10 @@ class UserController extends Controller
      * )
     */
     public function index(Request $request) {
-        return new UserResource($request->user());
+        $user = auth()->user();
+        $user->load("socials");
+        
+        return new UserResource($user);
     }
 
     /**
@@ -92,7 +95,7 @@ class UserController extends Controller
     */
     public function publicUser($username) {
         try {
-            $user = User::where('username', $username)->firstOrFail();
+            $user = User::with('socials')->where('username', $username)->firstOrFail();
         
             return ResponseHelper::success(
                 message: "success", 

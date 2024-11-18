@@ -50,7 +50,7 @@ class ShowArticleController extends Controller
     */
     public function show($id) {
         try {
-            $article = Article::findOrFail($id);
+            $article = Article::with(['user.socials'])->findOrFail($id);
 
             return ResponseHelper::success(
                 message: "success", 

@@ -4,7 +4,6 @@ namespace App\Http\Resources\Article;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\DateTimeResource;
-use App\Http\Resources\UserShortResource;
 use App\Http\Resources\Article\ArticleUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
