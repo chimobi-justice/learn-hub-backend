@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\User\SocialResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Number;
@@ -79,9 +80,7 @@ class UserShortResource extends JsonResource
         if ($showAllAurthorDetails) {
             $data['info_details'] = [
                 'bio' => $this->bio,
-                'twitter' => $this->twitter,
-                'gitHub' => $this->gitHub,
-                'website' => $this->website,
+                'socials' => SocialResource::collection($this->whenLoaded('socials'))
             ];
         }
 

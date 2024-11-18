@@ -33,9 +33,9 @@ class EditProfileFormRequest extends FormRequest
                 'max:255',
                 Rule::unique('users', 'username')->ignore($userId)
             ],
-            'twitter' => 'required|string|max:255',
-            'gitHub' => 'nullable|string|max:255',
-            'website' => 'nullable|string|max:255',
+            'socials' => 'nullable|array',
+            'socials.*.platform' => 'required|string|in:Twitter,GitHub,LinkedIn,Facebook,Instagram,Website,Youtube',
+            'socials.*.link' => 'required|url',
             'profile_headlines' => 'required|string|max:255',
             'bio' => 'required|string|max:1000',
             'state' => 'required|string|max:255',

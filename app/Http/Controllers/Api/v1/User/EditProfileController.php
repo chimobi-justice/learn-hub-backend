@@ -51,12 +51,22 @@ class EditProfileController extends Controller
         try {
             auth()->user()->update($request->validated());
 
+            if ($request->has('socials')) {
+                foreach ($request->input('socials') as $social) {
+                    // Find the existing social media entry for this user or create a new one
+                    auth()->user()->socials()->updateOrCreate(
+                        ['platform' => $social['platform']],
+                        ['link' => $social['link']]
+                    );
+                }
+            }
+
             return response([
                 'message' => 'Profile updated successfully!'
             ], 200);
 
             return ResponseHelper::success(message: "Profile updated successfully!");
-        } catch (\Exception $e) {    
+        } catch (\Thowable $e) {    
             return ResponseHelper::error(
                 message: "Something went wrong!",
                 statusCode: 500

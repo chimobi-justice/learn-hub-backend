@@ -8,6 +8,7 @@ use App\Models\ArticleLike;
 use App\Models\Thread;
 use App\Models\ThreadLike;
 use App\Models\SavedArticle;
+use App\Models\Social;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -241,5 +242,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function follows(User $user) {
         return $this->followings()->where('user_id', $user->id)->exists();
+    }
+
+    public function socials(): HasMany {
+        return $this->hasMany(Social::class);
     }
 }
