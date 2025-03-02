@@ -94,8 +94,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            // 'sslmode' => 'prefer',
-            'sslmode' => 'require' // important for neon
+            'sslmode' => 'prefer',
         ],
 
         'sqlsrv' => [
