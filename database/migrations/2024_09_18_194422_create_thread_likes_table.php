@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('thread_likes', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            $table->uuid('id');
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('thread_id')->constrained()->onDelete('cascade');
             $table->timestamps();
