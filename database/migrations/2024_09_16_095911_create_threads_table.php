@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('threads', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique();
             $table->foreignUuid('user_id')->contrained()->onDelete('cascade');
             $table->string('title');
             $table->text('content');

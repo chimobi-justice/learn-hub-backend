@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('thread_comments', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique();
             $table->foreignUuid('thread_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->text('comment'); 
