@@ -19,8 +19,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::patch('/{thread}/comments', [ThreadCommentController::class, 'edit']);
 
     Route::delete('/comments/{threadComment}', [ThreadCommentController::class, 'destroy']);
-    Route::post('/{threadLike}/likes', [ThreadLikeController::class, 'store']);
-    Route::delete('/{threadLike}/dislikes', [ThreadLikeController::class, 'destroy']);
+    Route::post('/{thread}/likes', [ThreadLikeController::class, 'store']);
+    Route::delete('/{thread}/dislikes', [ThreadLikeController::class, 'destroy']);
 });
 
 Route::get('/all', [GetThreadsController::class, 'getAllThreads']);
