@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('socials', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique();
             $table->string('platform'); // Platform name (e.g., Twitter, GitHub)
             $table->string('link'); 
             $table->foreignUuid('user_id')->contrained()->onDelete('cascade');
